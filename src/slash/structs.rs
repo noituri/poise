@@ -51,6 +51,7 @@ impl<U, E> Clone for SlashCommandErrorContext<'_, U, E> {
     }
 }
 
+/// Configuration for a singular slash command or a slash subcommand group
 pub struct SlashCommandOptions<U, E> {
     /// Falls back to the framework-specified value on None. See there for documentation.
     pub on_error: Option<fn(E, SlashCommandErrorContext<'_, U, E>) -> BoxFuture<'_, ()>>,
@@ -76,6 +77,9 @@ impl<U, E> Default for SlashCommandOptions<U, E> {
     }
 }
 
+/// A single slash command with an associated action, parameters, and configuration.
+///
+/// Subcommands are not stored here, see [`SlashCommandMeta`] instead.
 pub struct SlashCommand<U, E> {
     pub name: &'static str,
     pub description: &'static str,
@@ -84,6 +88,7 @@ pub struct SlashCommand<U, E> {
         &'a [serenity::ApplicationCommandInteractionDataOption],
     ) -> BoxFuture<'a, Result<(), E>>,
     pub parameters: Vec<
+        // TODO: change to just serenity::CreateApplicationCommandOption?
         fn(
             &mut serenity::CreateApplicationCommandOption,
         ) -> &mut serenity::CreateApplicationCommandOption,
@@ -91,7 +96,17 @@ pub struct SlashCommand<U, E> {
     pub options: SlashCommandOptions<U, E>,
 }
 
-impl<U, E> SlashCommand<U, E> {
+pub enum SlashCommandMeta<U, E> {
+    Command(SlashCommand<U, E>),
+    SubcommandGroup {
+        name: &'static str,
+        description: &'static str,
+        subcommands: Vec<SlashCommandMeta<U, E>>,
+        options: SlashCommandOptions<U, E>,
+    },
+}
+
+impl<U, E> SlashCommandMeta<U, E> {
     pub async fn create_in_guild(
         &self,
         http: &serenity::Http,
@@ -110,16 +125,64 @@ impl<U, E> SlashCommand<U, E> {
             .await
     }
 
+    pub fn create_as_subcommand<'a>(
+        &self,
+        builder: &'a mut serenity::CreateApplicationCommandOption,
+    ) -> &'a mut serenity::CreateApplicationCommandOption {
+        match self {
+            Self::SubcommandGroup {
+                name,
+                description,
+                subcommands,
+            } => {
+                builder.kind(serenity::ApplicationCommandOptionType::SubCommandGroup);
+                builder.name(name).description(description);
+
+                for sub_subcommand in subcommands {
+                    builder.create_sub_option(|f| sub_subcommand.create_as_subcommand(f));
+                }
+            }
+            Self::Command(command) => {
+                builder.kind(serenity::ApplicationCommandOptionType::SubCommand);
+                builder.name(command.name).description(command.description);
+
+                for create_option in &command.parameters {
+                    let mut option = serenity::CreateApplicationCommandOption::default();
+                    create_option(&mut option);
+                    builder.add_sub_option(option);
+                }
+            }
+        }
+        builder
+    }
+
     pub fn create<'a>(
         &self,
         interaction: &'a mut serenity::CreateApplicationCommand,
     ) -> &'a mut serenity::CreateApplicationCommand {
-        interaction.name(self.name);
-        interaction.description(self.description);
-        for create_option in &self.parameters {
-            let mut option = serenity::CreateApplicationCommandOption::default();
-            create_option(&mut option);
-            interaction.add_option(option);
+        match self {
+            Self::SubcommandGroup {
+                name,
+                description,
+                subcommands,
+            } => {
+                interaction.name(name).description(description);
+
+                for subcommand in subcommands {
+                    interaction.create_option(|f| subcommand.create_as_subcommand(f));
+                }
+            }
+            Self::Command(command) => {
+                interaction
+                    .name(command.name)
+                    .description(command.description);
+
+                for create_option in &command.parameters {
+                    let mut option = serenity::CreateApplicationCommandOption::default();
+                    create_option(&mut option);
+                    interaction.add_option(option);
+                }
+            }
         }
         interaction
     }
