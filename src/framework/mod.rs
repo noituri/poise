@@ -7,6 +7,85 @@ mod slash;
 use crate::serenity_prelude as serenity;
 use crate::*;
 
+pub struct BotCommand<'a, U, E> {
+    pub name: &'a str,
+    pub slash: Option<&'a crate::SlashCommand<U, E>>,
+    pub prefix: Option<&'a crate::PrefixCommand<U, E>>,
+}
+
+impl<'a, U, E> BotCommand<'a, U, E> {
+    fn iter(framework: &'a Framework<U, E>) -> impl Iterator<Item = BotCommand<'a, U, E>> {
+        let prefix_commands = &framework.options().prefix_options.commands;
+        let slash_commands = &framework.options().slash_options.commands;
+
+        // TODO: adjust to also work with slash-only commands
+        prefix_commands.iter().map(move |prefix_cmd| Self {
+            name: &prefix_cmd.command.name,
+            slash: slash_commands
+                .iter()
+                .find(|slash_cmd| slash_cmd.name.eq_ignore_ascii_case(prefix_cmd.command.name)),
+            prefix: Some(&prefix_cmd.command),
+        })
+    }
+}
+
+impl<'a, U, E> crate::PopArgument for BotCommand<'a, U, E> {
+    type Err = poise::InvalidChoice;
+
+    fn pop_from(
+        ctx: &serenity::Context,
+        msg: &serenity::Message,
+        args: &ArgString<'a>,
+    ) -> Result<(ArgString<'a>, Self), Self::Err> {
+        let (args, string) =
+            String::pop_from(args).map_err(WrapperArgumentParseError::EmptyArgs)?;
+        
+            // STUB: pass Framework in PopArgument to access it here
+
+            #(
+                if s.eq_ignore_ascii_case(#display_strings) {
+                    Ok(Self::#variant_idents)
+                } else
+            )* {
+                Err(poise::InvalidChoice)
+            }
+
+        Ok((args, Self(token)))
+    }
+}
+
+#[async_trait::async_trait]
+impl<'f, U: Send + Sync, E> crate::SlashArgument<'f, U, E> for BotCommand<'f, U, E> {
+    fn create<'a>(
+        builder: &'a mut serenity::CreateApplicationCommandOption,
+        framework: &Framework<U, E>,
+    ) -> &'a mut serenity::CreateApplicationCommandOption {
+        builder.kind(serenity::ApplicationCommandOptionType::Integer);
+        for (i, command) in BotCommand::iter(framework).enumerate() {
+            builder.add_int_choice(command.name, i as _);
+        }
+        builder
+    }
+
+    async fn extract(
+        _: &serenity::Context,
+        _: Option<serenity::GuildId>,
+        _: Option<serenity::ChannelId>,
+        framework: &'f Framework<U, E>,
+        value: &serde_json::Value,
+    ) -> Result<Self, SlashArgError> {
+        let choice_key = value
+            .as_u64()
+            .ok_or(crate::SlashArgError::CommandStructureMismatch(
+                "expected u64",
+            ))?;
+
+        Self::iter(framework).nth(choice_key as _).ok_or(
+            crate::SlashArgError::CommandStructureMismatch("out of bounds choice key"),
+        )
+    }
+}
+
 async fn check_permissions<U, E>(
     ctx: crate::Context<'_, U, E>,
     required_permissions: serenity::Permissions,

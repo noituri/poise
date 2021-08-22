@@ -158,7 +158,7 @@ pub async fn register_slash_commands<U, E>(
     let mut commands_builder = serenity::CreateApplicationCommands::default();
     let commands = &ctx.framework.options().slash_options.commands;
     for cmd in commands {
-        commands_builder.create_application_command(|f| cmd.create(f));
+        commands_builder.create_application_command(|f| cmd.create(f, ctx.framework));
     }
 
     crate::say_prefix_reply(ctx, format!("Registering {} commands...", commands.len())).await?;

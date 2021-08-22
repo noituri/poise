@@ -53,11 +53,12 @@ pub fn slash_choice_parameter(input: syn::DeriveInput) -> Result<TokenStream, da
     let indices2 = 0_i32..(variant_idents.len() as _);
     Ok(quote::quote! {
         #[poise::async_trait]
-        impl poise::SlashArgument for #enum_ident {
+        impl<'f, U: Send + Sync, E> poise::SlashArgument<'f, U, E> for #enum_ident {
             async fn extract(
                 _: &poise::serenity_prelude::Context,
                 _: Option<poise::serenity_prelude::GuildId>,
                 _: Option<poise::serenity_prelude::ChannelId>,
+                _: &'f poise::Framework<U, E>,
                 value: &poise::serde_json::Value,
             ) -> Result<Self, poise::SlashArgError> {
                 let choice_key = value
@@ -72,9 +73,10 @@ pub fn slash_choice_parameter(input: syn::DeriveInput) -> Result<TokenStream, da
                 }
             }
 
-            fn create(
-                builder: &mut poise::serenity_prelude::CreateApplicationCommandOption,
-            ) -> &mut poise::serenity_prelude::CreateApplicationCommandOption {
+            fn create<'a>(
+                builder: &'a mut poise::serenity_prelude::CreateApplicationCommandOption,
+                _: &'f poise::Framework<U, E>,
+            ) -> &'a mut poise::serenity_prelude::CreateApplicationCommandOption {
                 builder
                     .kind(poise::serenity_prelude::ApplicationCommandOptionType::Integer)
                     #( .add_int_choice(#display_strings, #indices2 as i32) )*

@@ -104,11 +104,15 @@ async fn choice(
 #[poise::command(track_edits, slash_command)]
 async fn help(
     ctx: Context<'_>,
-    #[description = "Specific command to show help about"] command: Option<String>,
+    #[description = "Specific command to show help about"] command: Option<
+        poise::Wrapper<poise::BotCommand<'_, Data, Error>>,
+    >,
 ) -> Result<(), Error> {
+    dbg!(&command);
+
     poise::defaults::help(
         ctx,
-        command.as_deref(),
+        command.as_ref().map(|c| c.name),
         "This is an example bot made to showcase features of my custom Discord bot framework",
         poise::defaults::HelpResponseMode::Ephemeral,
     )

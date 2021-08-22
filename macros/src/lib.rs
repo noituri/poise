@@ -316,7 +316,7 @@ fn generate_slash_command_spec(inv: &Invocation) -> Result<proc_macro2::TokenStr
         let param_name = &param.name;
         parameter_builders.push((
             quote::quote! {
-                |o| (&&&&&std::marker::PhantomData::<#type_>).create(o)
+                |o, framework| (&&&&&std::marker::PhantomData::<#type_>).create(o, framework)
                     .required(#required)
                     .name(stringify!(#param_name))
                     .description(#description)
@@ -366,7 +366,7 @@ fn generate_slash_command_spec(inv: &Invocation) -> Result<proc_macro2::TokenStr
                 #[allow(clippy::needless_question_mark)]
 
                 let ( #( #param_names, )* ) = ::poise::parse_slash_args!(
-                    ctx.discord, ctx.interaction.guild_id, ctx.interaction.channel_id, args =>
+                    ctx.discord, ctx.interaction.guild_id, ctx.interaction.channel_id, ctx.framework, args =>
                     #( (#param_names: #param_types), )*
                 ).await?;
 
