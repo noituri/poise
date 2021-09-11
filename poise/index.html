@@ -21,7 +21,7 @@ it’s easy to draft a good design when you know exactly what the feature will b
 <span class="kw">type</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">poise::Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Data</span>, <span class="ident">Error</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// Display your or another user&#39;s account creation date</span>
-<span class="attribute">#[<span class="ident">poise::command</span>(<span class="ident">slash_command</span>, <span class="ident">track_edits</span>)]</span>
+<span class="attribute">#[<span class="ident">poise::command</span>(<span class="ident">prefix_command</span>, <span class="ident">slash_command</span>, <span class="ident">track_edits</span>)]</span>
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">age</span>(
     <span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">description</span> <span class="op">=</span> <span class="string">&quot;Selected user&quot;</span>]</span> <span class="ident">user</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">serenity::User</span><span class="op">&gt;</span>,
