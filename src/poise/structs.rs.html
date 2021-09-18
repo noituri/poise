@@ -790,8 +790,8 @@
     <span class="doccomment">/// ```rust</span>
     <span class="doccomment">/// # mod misc {</span>
     <span class="doccomment">/// #     type Error = Box&lt;dyn std::error::Error + Send + Sync&gt;;</span>
-    <span class="doccomment">/// #     #[poise::command]</span>
-    <span class="doccomment">/// #     pub async fn ping(ctx: poise::PrefixContext&lt;&#39;_, (), Error&gt;) -&gt; Result&lt;(), Error&gt; {</span>
+    <span class="doccomment">/// #     #[poise::command(prefix_command)]</span>
+    <span class="doccomment">/// #     pub async fn ping(ctx: poise::Context&lt;&#39;_, (), Error&gt;) -&gt; Result&lt;(), Error&gt; {</span>
     <span class="doccomment">/// #         Ok(())</span>
     <span class="doccomment">/// #     }</span>
     <span class="doccomment">/// # }</span>
