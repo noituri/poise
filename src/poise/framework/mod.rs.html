@@ -302,11 +302,28 @@
 <span id="302">302</span>
 <span id="303">303</span>
 <span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
 </pre><pre class="rust"><code><span class="doccomment">//! The central Framework struct that ties everything together.</span>
 
 <span class="comment">// Prefix and slash specific implementation details</span>
 <span class="kw">mod</span> <span class="ident">prefix</span>;
 <span class="kw">mod</span> <span class="ident">slash</span>;
+
+<span class="kw">mod</span> <span class="ident">builder</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">builder</span>::<span class="kw-2">*</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
@@ -314,49 +331,49 @@
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">check_permissions</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>(
     <span class="ident">ctx</span>: <span class="ident"><span class="kw">crate</span>::Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
     <span class="ident">required_permissions</span>: <span class="ident">serenity::Permissions</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+) -&gt; <span class="ident">bool</span> {
     <span class="kw">if</span> <span class="ident">required_permissions</span>.<span class="ident">is_empty</span>() {
         <span class="kw">return</span> <span class="bool-val">true</span>;
     }
 
     <span class="kw">let</span> <span class="ident">guild_id</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">ctx</span>.<span class="ident">guild_id</span>() {
-        <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">x</span>,
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>, <span class="comment">// no permission checks in DMs</span>
+        <span class="prelude-val">Some</span>(<span class="ident">x</span>) =&gt; <span class="ident">x</span>,
+        <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="bool-val">true</span>, <span class="comment">// no permission checks in DMs</span>
     };
 
     <span class="kw">let</span> <span class="ident">guild</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">ctx</span>.<span class="ident">discord</span>().<span class="ident">cache</span>.<span class="ident">guild</span>(<span class="ident">guild_id</span>) {
-        <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">x</span>,
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">false</span>, <span class="comment">// Guild not in cache</span>
+        <span class="prelude-val">Some</span>(<span class="ident">x</span>) =&gt; <span class="ident">x</span>,
+        <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="bool-val">false</span>, <span class="comment">// Guild not in cache</span>
     };
 
     <span class="kw">let</span> <span class="ident">channel</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">guild</span>.<span class="ident">channels</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">ctx</span>.<span class="ident">channel_id</span>()) {
-        <span class="prelude-val">Some</span>(<span class="ident">serenity::Channel::Guild</span>(<span class="ident">channel</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">channel</span>,
-        <span class="prelude-val">Some</span>(<span class="ident">_other_channel</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">serenity::Channel::Guild</span>(<span class="ident">channel</span>)) =&gt; <span class="ident">channel</span>,
+        <span class="prelude-val">Some</span>(<span class="ident">_other_channel</span>) =&gt; {
             <span class="macro">println!</span>(
                 <span class="string">&quot;Warning: guild message was supposedly sent in a non-guild channel. Denying invocation&quot;</span>
             );
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">false</span>,
+        <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="bool-val">false</span>,
     };
 
     <span class="comment">// If member not in cache (probably because presences intent is not enabled), retrieve via HTTP</span>
     <span class="kw">let</span> <span class="ident">member</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">guild</span>.<span class="ident">members</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">ctx</span>.<span class="ident">author</span>().<span class="ident">id</span>) {
-        <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">x</span>.<span class="ident">clone</span>(),
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">ctx</span>
+        <span class="prelude-val">Some</span>(<span class="ident">x</span>) =&gt; <span class="ident">x</span>.<span class="ident">clone</span>(),
+        <span class="prelude-val">None</span> =&gt; <span class="kw">match</span> <span class="ident">ctx</span>
             .<span class="ident">discord</span>()
             .<span class="ident">http</span>
             .<span class="ident">get_member</span>(<span class="ident">guild_id</span>.<span class="number">0</span>, <span class="ident">ctx</span>.<span class="ident">author</span>().<span class="ident">id</span>.<span class="number">0</span>)
             .<span class="kw">await</span>
         {
-            <span class="prelude-val">Ok</span>(<span class="ident">member</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">member</span>,
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">false</span>,
+            <span class="prelude-val">Ok</span>(<span class="ident">member</span>) =&gt; <span class="ident">member</span>,
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="bool-val">false</span>,
         },
     };
 
     <span class="kw">match</span> <span class="ident">guild</span>.<span class="ident">user_permissions_in</span>(<span class="ident">channel</span>, <span class="kw-2">&amp;</span><span class="ident">member</span>) {
-        <span class="prelude-val">Ok</span>(<span class="ident">perms</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">perms</span>.<span class="ident">contains</span>(<span class="ident">required_permissions</span>),
-        <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+        <span class="prelude-val">Ok</span>(<span class="ident">perms</span>) =&gt; <span class="ident">perms</span>.<span class="ident">contains</span>(<span class="ident">required_permissions</span>),
+        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
     }
 }
 
@@ -364,7 +381,7 @@
     <span class="ident">ctx</span>: <span class="ident"><span class="kw">crate</span>::Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
     <span class="ident">required_permissions</span>: <span class="ident">serenity::Permissions</span>,
     <span class="ident">owners_only</span>: <span class="ident">bool</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+) -&gt; <span class="ident">bool</span> {
     <span class="kw">if</span> <span class="ident">owners_only</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">ctx</span>.<span class="ident">framework</span>().<span class="ident">options</span>().<span class="ident">owners</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">ctx</span>.<span class="ident">author</span>().<span class="ident">id</span>) {
         <span class="kw">return</span> <span class="bool-val">false</span>;
     }
@@ -389,13 +406,11 @@
                         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">serenity::Context</span>,
                         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">serenity::Ready</span>,
                         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">Self</span>,
-                    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+                    ) -&gt; <span class="ident">BoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
             <span class="op">&gt;</span>,
         <span class="op">&gt;</span>,
     <span class="op">&gt;</span>,
-    <span class="comment">// The bot ID is embedded in the token so we shouldn&#39;t have to do all of this mutex mess</span>
-    <span class="comment">// But it&#39;s kinda messy to get access to the token in the framework</span>
-    <span class="ident">bot_id</span>: <span class="ident">std::sync::Mutex</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">serenity::UserId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">bot_id</span>: <span class="ident">serenity::UserId</span>,
     <span class="comment">// TODO: wrap in RwLock to allow changing framework options while running? Could also replace</span>
     <span class="comment">// the edit tracking cache interior mutability</span>
     <span class="ident">options</span>: <span class="ident">FrameworkOptions</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
@@ -403,18 +418,33 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> <span class="ident">Framework</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Setup a new blank Framework with a prefix and a callback to provide user data.</span>
+    <span class="doccomment">/// Create a framework builder to configure, create and run a framework.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The user data callback is invoked as soon as the bot is logged. That way, bot data like user</span>
-    <span class="doccomment">/// ID or connected guilds can be made available to the user data setup function. The user data</span>
-    <span class="doccomment">/// setup is not allowed to return Result because there would be no reasonable</span>
+    <span class="doccomment">/// For more information, see [`FrameworkBuilder`]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>() -&gt; <span class="ident">FrameworkBuilder</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+        <span class="ident">FrameworkBuilder::default</span>()
+    }
+
+    <span class="doccomment">/// Setup a new [`Framework`]</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Takes several arguments:</span>
+    <span class="doccomment">/// - the prefix used for parsing commands from messages</span>
+    <span class="doccomment">/// - the Discord application ID (required for slash commands)</span>
+    <span class="doccomment">/// - a callback to create user data</span>
+    <span class="doccomment">/// - framework configuration via [`FrameworkOptions`]</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The user data callback is invoked as soon as the bot is logged in. That way, bot data like</span>
+    <span class="doccomment">/// user ID or connected guilds can be made available to the user data setup function. The user</span>
+    <span class="doccomment">/// data setup is not allowed to return Result because there would be no reasonable</span>
     <span class="doccomment">/// course of action on error.</span>
+    <span class="attribute">#[<span class="ident">deprecated</span> <span class="op">=</span> <span class="string">&quot;use Framework::build() instead&quot;</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
         <span class="ident">prefix</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
         <span class="ident">application_id</span>: <span class="ident">serenity::ApplicationId</span>,
+        <span class="ident">bot_id</span>: <span class="ident">serenity::UserId</span>,
         <span class="ident">user_data_setup</span>: <span class="ident">F</span>,
         <span class="ident">options</span>: <span class="ident">FrameworkOptions</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+    ) -&gt; <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="ident">Send</span>
             <span class="op">+</span> <span class="ident">Sync</span>
@@ -423,13 +453,13 @@
                 <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">serenity::Context</span>,
                 <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">serenity::Ready</span>,
                 <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">Self</span>,
-            ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+            ) -&gt; <span class="ident">BoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     {
         <span class="self">Self</span> {
             <span class="ident">prefix</span>: <span class="ident">prefix</span>.<span class="ident">into</span>(),
             <span class="ident">user_data</span>: <span class="ident">once_cell::sync::OnceCell::new</span>(),
             <span class="ident">user_data_setup</span>: <span class="ident">std::sync::Mutex::new</span>(<span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">user_data_setup</span>))),
-            <span class="ident">bot_id</span>: <span class="ident">std::sync::Mutex::new</span>(<span class="prelude-val">None</span>),
+            <span class="ident">bot_id</span>,
             <span class="ident">options</span>,
             <span class="ident">application_id</span>,
         }
@@ -439,7 +469,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Takes a `serenity::ClientBuilder`, in which you need to supply the bot token, as well as</span>
     <span class="doccomment">/// any gateway intents.</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">start</span>(<span class="self">self</span>, <span class="ident">builder</span>: <span class="ident">serenity::ClientBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serenity::Error</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">start</span>(<span class="self">self</span>, <span class="ident">builder</span>: <span class="ident">serenity::ClientBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serenity::Error</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
         <span class="ident">E</span>: <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">Send</span>,
@@ -478,27 +508,27 @@
     }
 
     <span class="doccomment">/// Return the stored framework options, including commands.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">options</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">FrameworkOptions</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">options</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">FrameworkOptions</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>
     }
 
     <span class="doccomment">/// Returns the application ID given to the framework on its creation.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">application_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">serenity::ApplicationId</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">application_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">serenity::ApplicationId</span> {
         <span class="self">self</span>.<span class="ident">application_id</span>
     }
 
     <span class="doccomment">/// Returns the main prefix for prefix commands</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prefix</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prefix</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">prefix</span>
     }
 
-    <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_user_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">U</span> {
+    <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">get_user_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">U</span> {
         <span class="comment">// We shouldn&#39;t get a Message event before a Ready event. But if we do, wait until</span>
         <span class="comment">// the Ready event does come and the resulting data has arrived.</span>
         <span class="kw">loop</span> {
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">user_data</span>.<span class="ident">get</span>() {
-                <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span> <span class="ident">x</span>,
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">tokio::time::sleep</span>(<span class="ident">std::time::Duration::from_millis</span>(<span class="number">100</span>)).<span class="kw">await</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">x</span>) =&gt; <span class="kw">break</span> <span class="ident">x</span>,
+                <span class="prelude-val">None</span> =&gt; <span class="ident">tokio::time::sleep</span>(<span class="ident">std::time::Duration::from_millis</span>(<span class="number">100</span>)).<span class="kw">await</span>,
             }
         }
     }
@@ -508,23 +538,21 @@
         <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>,
     {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">event</span> {
-            <span class="ident">Event::Ready</span> { <span class="ident">data_about_bot</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">bot_id</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>() <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">data_about_bot</span>.<span class="ident">user</span>.<span class="ident">id</span>);
-
+            <span class="ident">Event::Ready</span> { <span class="ident">data_about_bot</span> } =&gt; {
                 <span class="kw">let</span> <span class="ident">user_data_setup</span> <span class="op">=</span> <span class="ident">Option::take</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">user_data_setup</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>());
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">user_data_setup</span>) <span class="op">=</span> <span class="ident">user_data_setup</span> {
                     <span class="kw">match</span> <span class="ident">user_data_setup</span>(<span class="kw-2">&amp;</span><span class="ident">ctx</span>, <span class="ident">data_about_bot</span>, <span class="self">self</span>).<span class="kw">await</span> {
-                        <span class="prelude-val">Ok</span>(<span class="ident">user_data</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="prelude-val">Ok</span>(<span class="ident">user_data</span>) =&gt; {
                             <span class="kw">let</span> <span class="kw">_</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">user_data</span>.<span class="ident">set</span>(<span class="ident">user_data</span>);
                         }
-                        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="self">self</span>.<span class="ident">options</span>.<span class="ident">on_error</span>)(<span class="ident">e</span>, <span class="ident">ErrorContext::Setup</span>).<span class="kw">await</span>,
+                        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; (<span class="self">self</span>.<span class="ident">options</span>.<span class="ident">on_error</span>)(<span class="ident">e</span>, <span class="ident">ErrorContext::Setup</span>).<span class="kw">await</span>,
                     }
                 } <span class="kw">else</span> {
                     <span class="comment">// discarding duplicate Discord bot ready event</span>
                     <span class="comment">// (happens regularly when bot is online for long period of time)</span>
                 }
             }
-            <span class="ident">Event::Message</span> { <span class="ident">new_message</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Event::Message</span> { <span class="ident">new_message</span> } =&gt; {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="prelude-val">Some</span>((<span class="ident">err</span>, <span class="ident">ctx</span>))) <span class="op">=</span>
                     <span class="ident">prefix::dispatch_message</span>(<span class="self">self</span>, <span class="kw-2">&amp;</span><span class="ident">ctx</span>, <span class="ident">new_message</span>, <span class="bool-val">false</span>).<span class="kw">await</span>
                 {
@@ -539,7 +567,7 @@
                     }
                 }
             }
-            <span class="ident">Event::MessageUpdate</span> { <span class="ident">event</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Event::MessageUpdate</span> { <span class="ident">event</span>, .. } =&gt; {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">edit_tracker</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>.<span class="ident">prefix_options</span>.<span class="ident">edit_tracker</span> {
                     <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">edit_tracker</span>.<span class="ident">write</span>().<span class="ident">process_message_update</span>(<span class="ident">event</span>);
 
@@ -556,7 +584,7 @@
             }
             <span class="ident">Event::MessageDelete</span> {
                 <span class="ident">deleted_message_id</span>, ..
-            } <span class="op">=</span><span class="op">&gt;</span> {
+            } =&gt; {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">edit_tracker</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>.<span class="ident">prefix_options</span>.<span class="ident">edit_tracker</span> {
                     <span class="kw">let</span> <span class="ident">bot_response</span> <span class="op">=</span> <span class="ident">edit_tracker</span>
                         .<span class="ident">write</span>()
@@ -574,7 +602,7 @@
             }
             <span class="ident">Event::InteractionCreate</span> {
                 <span class="ident">interaction</span>: <span class="ident">serenity::Interaction::ApplicationCommand</span>(<span class="ident">interaction</span>),
-            } <span class="op">=</span><span class="op">&gt;</span> {
+            } =&gt; {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>((<span class="ident">e</span>, <span class="ident">error_ctx</span>)) <span class="op">=</span> <span class="ident">slash::dispatch_interaction</span>(
                     <span class="self">self</span>,
                     <span class="kw-2">&amp;</span><span class="ident">ctx</span>,
@@ -594,7 +622,7 @@
                     }
                 }
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="kw">_</span> =&gt; {}
         }
 
         <span class="comment">// Do this after the framework&#39;s Ready handling, so that self.get_user_data() doesnt</span>

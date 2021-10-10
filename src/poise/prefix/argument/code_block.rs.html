@@ -164,10 +164,10 @@
 }
 
 <span class="kw">impl</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">CodeBlockError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::fmt::Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident"><span class="self">Self</span>::Missing</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Missing code block&quot;</span>),
-            <span class="ident"><span class="self">Self</span>::Malformed</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Malformed code block&quot;</span>),
+            <span class="ident"><span class="self">Self</span>::Missing</span> =&gt; <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Missing code block&quot;</span>),
+            <span class="ident"><span class="self">Self</span>::Malformed</span> =&gt; <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;Malformed code block&quot;</span>),
         }
     }
 }
@@ -198,7 +198,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">CodeBlock</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std::fmt::Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
         <span class="macro">write!</span>(
             <span class="ident">f</span>,
             <span class="string">&quot;```{}\n{}\n```&quot;</span>,
@@ -216,17 +216,17 @@
     <span class="doccomment">/// official Discord client&#39;s syntax highlighting, if existent.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```rust</span>
-    <span class="doccomment">/// # use poise::{CodeBlock, ArgString, PopArgumentAsync as _};</span>
+    <span class="doccomment">/// # use poise::{CodeBlock, ArgString, PopArgument as _};</span>
     <span class="doccomment">/// assert_eq!(</span>
-    <span class="doccomment">///     ArgString(&quot;`hello world`&quot;).sync_pop::&lt;CodeBlock&gt;().unwrap().1,</span>
+    <span class="doccomment">///     CodeBlock::pop_from(&amp;ArgString(&quot;`hello world`&quot;)).unwrap().1,</span>
     <span class="doccomment">///     CodeBlock { code: &quot;hello world&quot;.into(), language: None },</span>
     <span class="doccomment">/// );</span>
     <span class="doccomment">/// assert_eq!(</span>
-    <span class="doccomment">///     ArgString(&quot;```rust\nprintln!(\&quot;Hello world!\&quot;);\n```&quot;).sync_pop::&lt;CodeBlock&gt;().unwrap().1,</span>
+    <span class="doccomment">///     CodeBlock::pop_from(&amp;ArgString(&quot;```rust\nprintln!(\&quot;Hello world!\&quot;);\n```&quot;)).unwrap().1,</span>
     <span class="doccomment">///     CodeBlock { code: &quot;println!(\&quot;Hello world!\&quot;);&quot;.into(), language: Some(&quot;rust&quot;.into()) },</span>
     <span class="doccomment">/// );</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">pop_from</span>(<span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">ArgString</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">ArgString</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="self">Self</span>), <span class="ident"><span class="self">Self</span>::Err</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">pop_from</span>(<span class="ident">args</span>: <span class="kw-2">&amp;</span><span class="ident">ArgString</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">ArgString</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>, <span class="self">Self</span>), <span class="ident"><span class="self">Self</span>::Err</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">rest</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">code_block</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">code_block</span>) <span class="op">=</span> <span class="ident">args</span>.<span class="number">0</span>.<span class="ident">strip_prefix</span>(<span class="string">&quot;```&quot;</span>) {
             <span class="kw">let</span> <span class="ident">code_block_end</span> <span class="op">=</span> <span class="ident">code_block</span>.<span class="ident">find</span>(<span class="string">&quot;```&quot;</span>).<span class="ident">ok_or</span>(<span class="ident">CodeBlockError::Malformed</span>)<span class="question-mark">?</span>;

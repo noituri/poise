@@ -209,20 +209,20 @@
 <span class="kw">fn</span> <span class="ident">find_matching_application_command</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>(
     <span class="ident">framework</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident"><span class="kw">crate</span>::Framework</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
     <span class="ident">interaction</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">serenity::ApplicationCommandInteractionData</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(
+) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(
     <span class="ident"><span class="kw">crate</span>::ApplicationCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
     <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> [<span class="ident">serenity::ApplicationCommandInteractionDataOption</span>],
 )<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">commands</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">framework</span>.<span class="ident">options</span>.<span class="ident">application_options</span>.<span class="ident">commands</span>;
     <span class="ident">commands</span>.<span class="ident">iter</span>().<span class="ident">find_map</span>(<span class="op">|</span><span class="ident">cmd</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">cmd</span> {
-        <span class="ident"><span class="kw">crate</span>::ApplicationCommandTree::ContextMenu</span>(<span class="ident">cmd</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident"><span class="kw">crate</span>::ApplicationCommandTree::ContextMenu</span>(<span class="ident">cmd</span>) =&gt; {
             <span class="kw">let</span> <span class="ident">application_command_type</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">cmd</span>.<span class="ident">action</span> {
-                <span class="ident"><span class="kw">crate</span>::ContextMenuCommandAction::User</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">serenity::ApplicationCommandType::User</span>,
-                <span class="ident"><span class="kw">crate</span>::ContextMenuCommandAction::Message</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident"><span class="kw">crate</span>::ContextMenuCommandAction::User</span>(<span class="kw">_</span>) =&gt; <span class="ident">serenity::ApplicationCommandType::User</span>,
+                <span class="ident"><span class="kw">crate</span>::ContextMenuCommandAction::Message</span>(<span class="kw">_</span>) =&gt; {
                     <span class="ident">serenity::ApplicationCommandType::Message</span>
                 }
             };
-            <span class="kw">if</span> <span class="ident">cmd</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">interaction</span>.<span class="ident">name</span> <span class="op">&amp;&amp;</span> <span class="ident">interaction</span>.<span class="ident">kind</span> <span class="op">=</span><span class="op">=</span> <span class="ident">application_command_type</span> {
+            <span class="kw">if</span> <span class="ident">cmd</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">interaction</span>.<span class="ident">name</span> <span class="op">&amp;&amp;</span> <span class="ident">interaction</span>.<span class="ident">kind</span> <span class="op">==</span> <span class="ident">application_command_type</span> {
                 <span class="prelude-val">Some</span>((
                     <span class="ident"><span class="kw">crate</span>::ApplicationCommand::ContextMenu</span>(<span class="ident">cmd</span>),
                     <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">interaction</span>.<span class="ident">options</span>,
@@ -232,10 +232,10 @@
             }
         }
         <span class="comment">// TODO: improve this monstrosity</span>
-        <span class="ident"><span class="kw">crate</span>::ApplicationCommandTree::Slash</span>(<span class="ident">cmd</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">cmd</span> {
-            <span class="ident"><span class="kw">crate</span>::SlashCommandMeta::Command</span>(<span class="ident">cmd</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="ident">cmd</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">interaction</span>.<span class="ident">name</span>
-                    <span class="op">&amp;&amp;</span> <span class="ident">interaction</span>.<span class="ident">kind</span> <span class="op">=</span><span class="op">=</span> <span class="ident">serenity::ApplicationCommandType::ChatInput</span>
+        <span class="ident"><span class="kw">crate</span>::ApplicationCommandTree::Slash</span>(<span class="ident">cmd</span>) =&gt; <span class="kw">match</span> <span class="ident">cmd</span> {
+            <span class="ident"><span class="kw">crate</span>::SlashCommandMeta::Command</span>(<span class="ident">cmd</span>) =&gt; {
+                <span class="kw">if</span> <span class="ident">cmd</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">interaction</span>.<span class="ident">name</span>
+                    <span class="op">&amp;&amp;</span> <span class="ident">interaction</span>.<span class="ident">kind</span> <span class="op">==</span> <span class="ident">serenity::ApplicationCommandType::ChatInput</span>
                 {
                     <span class="prelude-val">Some</span>((<span class="ident"><span class="kw">crate</span>::ApplicationCommand::Slash</span>(<span class="ident">cmd</span>), <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">interaction</span>.<span class="ident">options</span>))
                 } <span class="kw">else</span> {
@@ -247,21 +247,21 @@
                 <span class="ident">subcommands</span>,
                 <span class="ident">name</span>: <span class="kw">_</span>,
                 <span class="ident">description</span>: <span class="kw">_</span>,
-            } <span class="op">=</span><span class="op">&gt;</span> {
+            } =&gt; {
                 <span class="kw">let</span> <span class="ident">interaction</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">interaction</span>.<span class="ident">options</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="ident">option</span><span class="op">|</span> {
-                    <span class="ident">option</span>.<span class="ident">kind</span> <span class="op">=</span><span class="op">=</span> <span class="ident">serenity::ApplicationCommandOptionType::SubCommand</span>
-                        <span class="op">|</span><span class="op">|</span> <span class="ident">option</span>.<span class="ident">kind</span> <span class="op">=</span><span class="op">=</span> <span class="ident">serenity::ApplicationCommandOptionType::SubCommandGroup</span>
+                    <span class="ident">option</span>.<span class="ident">kind</span> <span class="op">==</span> <span class="ident">serenity::ApplicationCommandOptionType::SubCommand</span>
+                        <span class="op">|</span><span class="op">|</span> <span class="ident">option</span>.<span class="ident">kind</span> <span class="op">==</span> <span class="ident">serenity::ApplicationCommandOptionType::SubCommandGroup</span>
                 }) {
-                    <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">x</span>,
-                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="prelude-val">Some</span>(<span class="ident">x</span>) =&gt; <span class="ident">x</span>,
+                    <span class="prelude-val">None</span> =&gt; {
                         <span class="macro">eprintln!</span>(<span class="string">&quot;Expected slash subcommand, but Discord didn&#39;t send one&quot;</span>);
                         <span class="kw">return</span> <span class="prelude-val">None</span>;
                     }
                 };
 
                 <span class="ident">subcommands</span>.<span class="ident">iter</span>().<span class="ident">find_map</span>(<span class="op">|</span><span class="ident">cmd</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">cmd</span> {
-                    <span class="ident"><span class="kw">crate</span>::SlashCommandMeta::Command</span>(<span class="ident">cmd</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                        <span class="kw">if</span> <span class="ident">cmd</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">interaction</span>.<span class="ident">name</span> {
+                    <span class="ident"><span class="kw">crate</span>::SlashCommandMeta::Command</span>(<span class="ident">cmd</span>) =&gt; {
+                        <span class="kw">if</span> <span class="ident">cmd</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">interaction</span>.<span class="ident">name</span> {
                             <span class="prelude-val">Some</span>((<span class="ident"><span class="kw">crate</span>::ApplicationCommand::Slash</span>(<span class="ident">cmd</span>), <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">interaction</span>.<span class="ident">options</span>))
                         } <span class="kw">else</span> {
                             <span class="prelude-val">None</span>
@@ -272,22 +272,22 @@
                         <span class="ident">subcommands</span>,
                         <span class="ident">name</span>: <span class="kw">_</span>,
                         <span class="ident">description</span>: <span class="kw">_</span>,
-                    } <span class="op">=</span><span class="op">&gt;</span> {
+                    } =&gt; {
                         <span class="kw">let</span> <span class="ident">interaction</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">interaction</span>.<span class="ident">options</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="ident">option</span><span class="op">|</span> {
-                            <span class="ident">option</span>.<span class="ident">kind</span> <span class="op">=</span><span class="op">=</span> <span class="ident">serenity::ApplicationCommandOptionType::SubCommand</span>
+                            <span class="ident">option</span>.<span class="ident">kind</span> <span class="op">==</span> <span class="ident">serenity::ApplicationCommandOptionType::SubCommand</span>
                                 <span class="op">|</span><span class="op">|</span> <span class="ident">option</span>.<span class="ident">kind</span>
-                                    <span class="op">=</span><span class="op">=</span> <span class="ident">serenity::ApplicationCommandOptionType::SubCommandGroup</span>
+                                    <span class="op">==</span> <span class="ident">serenity::ApplicationCommandOptionType::SubCommandGroup</span>
                         }) {
-                            <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">x</span>,
-                            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="prelude-val">Some</span>(<span class="ident">x</span>) =&gt; <span class="ident">x</span>,
+                            <span class="prelude-val">None</span> =&gt; {
                                 <span class="macro">eprintln!</span>(<span class="string">&quot;Expected slash subcommand, but Discord didn&#39;t send one&quot;</span>);
                                 <span class="kw">return</span> <span class="prelude-val">None</span>;
                             }
                         };
 
                         <span class="ident">subcommands</span>.<span class="ident">iter</span>().<span class="ident">find_map</span>(<span class="op">|</span><span class="ident">cmd</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">cmd</span> {
-                            <span class="ident"><span class="kw">crate</span>::SlashCommandMeta::Command</span>(<span class="ident">cmd</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                                <span class="kw">if</span> <span class="ident">cmd</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">interaction</span>.<span class="ident">name</span> {
+                            <span class="ident"><span class="kw">crate</span>::SlashCommandMeta::Command</span>(<span class="ident">cmd</span>) =&gt; {
+                                <span class="kw">if</span> <span class="ident">cmd</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">interaction</span>.<span class="ident">name</span> {
                                     <span class="prelude-val">Some</span>((
                                         <span class="ident"><span class="kw">crate</span>::ApplicationCommand::Slash</span>(<span class="ident">cmd</span>),
                                         <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">interaction</span>.<span class="ident">options</span>,
@@ -296,7 +296,7 @@
                                     <span class="prelude-val">None</span>
                                 }
                             }
-                            <span class="ident"><span class="kw">crate</span>::SlashCommandMeta::CommandGroup</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="ident"><span class="kw">crate</span>::SlashCommandMeta::CommandGroup</span> { .. } =&gt; {
                                 <span class="comment">// Discord doesn&#39;t send nested slash commands at this level anymore</span>
                                 <span class="prelude-val">None</span>
                             }
@@ -314,11 +314,11 @@
     <span class="ident">interaction</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">serenity::ApplicationCommandInteraction</span>,
     <span class="comment">// Need to pass this in from outside because of lifetime issues</span>
     <span class="ident">has_sent_initial_response</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">std::sync::atomic::AtomicBool</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), (<span class="ident">E</span>, <span class="ident"><span class="kw">crate</span>::ApplicationCommandErrorContext</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), (<span class="ident">E</span>, <span class="ident"><span class="kw">crate</span>::ApplicationCommandErrorContext</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
     <span class="kw">let</span> (<span class="ident">command</span>, <span class="ident">leaf_interaction_options</span>) <span class="op">=</span>
         <span class="kw">match</span> <span class="ident">find_matching_application_command</span>(<span class="ident">this</span>, <span class="kw-2">&amp;</span><span class="ident">interaction</span>.<span class="ident">data</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">value</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">value</span>,
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">value</span>) =&gt; <span class="ident">value</span>,
+            <span class="prelude-val">None</span> =&gt; {
                 <span class="macro">println!</span>(
                     <span class="string">&quot;Warning: received unknown interaction \&quot;{}\&quot;&quot;</span>,
                     <span class="ident">interaction</span>.<span class="ident">data</span>.<span class="ident">name</span>
@@ -380,18 +380,18 @@
     (<span class="ident">this</span>.<span class="ident">options</span>.<span class="ident">pre_command</span>)(<span class="ident"><span class="kw">crate</span>::Context::Application</span>(<span class="ident">ctx</span>)).<span class="kw">await</span>;
 
     <span class="kw">let</span> <span class="ident">action_result</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">command</span> {
-        <span class="ident"><span class="kw">crate</span>::ApplicationCommand::Slash</span>(<span class="ident">cmd</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">cmd</span>.<span class="ident">action</span>)(<span class="ident">ctx</span>, <span class="ident">leaf_interaction_options</span>).<span class="kw">await</span>,
-        <span class="ident"><span class="kw">crate</span>::ApplicationCommand::ContextMenu</span>(<span class="ident">cmd</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">cmd</span>.<span class="ident">action</span> {
-            <span class="ident"><span class="kw">crate</span>::ContextMenuCommandAction::User</span>(<span class="ident">action</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">interaction</span>.<span class="ident">data</span>.<span class="ident">target</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">serenity::ResolvedTarget::User</span>(<span class="ident">user</span>, <span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">action</span>)(<span class="ident">ctx</span>, <span class="ident">user</span>.<span class="ident">clone</span>()).<span class="kw">await</span>,
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident"><span class="kw">crate</span>::ApplicationCommand::Slash</span>(<span class="ident">cmd</span>) =&gt; (<span class="ident">cmd</span>.<span class="ident">action</span>)(<span class="ident">ctx</span>, <span class="ident">leaf_interaction_options</span>).<span class="kw">await</span>,
+        <span class="ident"><span class="kw">crate</span>::ApplicationCommand::ContextMenu</span>(<span class="ident">cmd</span>) =&gt; <span class="kw">match</span> <span class="ident">cmd</span>.<span class="ident">action</span> {
+            <span class="ident"><span class="kw">crate</span>::ContextMenuCommandAction::User</span>(<span class="ident">action</span>) =&gt; <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">interaction</span>.<span class="ident">data</span>.<span class="ident">target</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">serenity::ResolvedTarget::User</span>(<span class="ident">user</span>, <span class="kw">_</span>)) =&gt; (<span class="ident">action</span>)(<span class="ident">ctx</span>, <span class="ident">user</span>.<span class="ident">clone</span>()).<span class="kw">await</span>,
+                <span class="kw">_</span> =&gt; {
                     <span class="macro">println!</span>(<span class="string">&quot;Warning: no user object sent in user context menu interaction&quot;</span>);
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
                 }
             },
-            <span class="ident"><span class="kw">crate</span>::ContextMenuCommandAction::Message</span>(<span class="ident">action</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">interaction</span>.<span class="ident">data</span>.<span class="ident">target</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">serenity::ResolvedTarget::Message</span>(<span class="ident">msg</span>)) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">action</span>)(<span class="ident">ctx</span>, <span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="kw">await</span>,
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident"><span class="kw">crate</span>::ContextMenuCommandAction::Message</span>(<span class="ident">action</span>) =&gt; <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">interaction</span>.<span class="ident">data</span>.<span class="ident">target</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">serenity::ResolvedTarget::Message</span>(<span class="ident">msg</span>)) =&gt; (<span class="ident">action</span>)(<span class="ident">ctx</span>, <span class="ident">msg</span>.<span class="ident">clone</span>()).<span class="kw">await</span>,
+                <span class="kw">_</span> =&gt; {
                     <span class="macro">println!</span>(<span class="string">&quot;Warning: no message object sent in message context menu interaction&quot;</span>);
                     <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
                 }
