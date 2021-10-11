@@ -273,6 +273,8 @@
 <span id="273">273</span>
 <span id="274">274</span>
 <span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 
 <span class="comment">// Adapted from serenity::Typing</span>
@@ -475,7 +477,9 @@
     <span class="prelude-val">Ok</span>(<span class="ident">first_matching_command</span>)
 }
 
-<span class="doccomment">/// Returns</span>
+<span class="doccomment">/// Manually dispatches a message with the prefix framework.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Returns:</span>
 <span class="doccomment">/// - Ok(()) if a command was successfully dispatched and run</span>
 <span class="doccomment">/// - Err(None) if no command was run but no error happened</span>
 <span class="doccomment">/// - Err(Some(error: UserError)) if any user code yielded an error</span>
