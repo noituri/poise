@@ -73,6 +73,7 @@
 <span id="73">73</span>
 <span id="74">74</span>
 <span id="75">75</span>
+<span id="76">76</span>
 </pre><pre class="rust"><code><span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">cfg_attr</span>(<span class="ident">all</span>(), <span class="ident">doc</span> <span class="op">=</span> <span class="macro">include_str!</span>(<span class="string">&quot;../README.md&quot;</span>)))]</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(
     <span class="ident">not</span>(<span class="ident">docsrs</span>),
@@ -109,6 +110,7 @@
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">async_trait::async_trait</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">futures</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">poise_macros</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">serde_json</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">serenity</span>;
@@ -132,7 +134,7 @@
         <span class="ident">http</span>::<span class="kw-2">*</span>,
         <span class="ident">model</span>::{
             <span class="ident">event</span>::<span class="kw-2">*</span>,
-            <span class="ident">interactions</span>::{<span class="ident">application_command</span>::<span class="kw-2">*</span>, <span class="ident">message_component</span>::<span class="kw-2">*</span>, <span class="kw-2">*</span>},
+            <span class="ident">interactions</span>::{<span class="ident">application_command</span>::<span class="kw-2">*</span>, <span class="ident">autocomplete</span>::<span class="kw-2">*</span>, <span class="ident">message_component</span>::<span class="kw-2">*</span>, <span class="kw-2">*</span>},
             <span class="ident">prelude</span>::<span class="kw-2">*</span>,
         },
         <span class="ident">prelude</span>::<span class="kw-2">*</span>,

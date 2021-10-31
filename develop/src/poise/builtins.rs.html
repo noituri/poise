@@ -314,6 +314,14 @@
 <span id="314">314</span>
 <span id="315">315</span>
 <span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Building blocks for common commands like help commands or application command registration</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This file provides sample commands and utility functions like help menus or error handlers to</span>
@@ -351,6 +359,14 @@
         }
         <span class="ident"><span class="kw">crate</span>::ErrorContext::Listener</span>(<span class="ident">event</span>) =&gt; {
             <span class="macro">println!</span>(<span class="string">&quot;Error in listener while processing {:?}: {}&quot;</span>, <span class="ident">event</span>, <span class="ident">e</span>)
+        }
+        <span class="ident"><span class="kw">crate</span>::ErrorContext::Autocomplete</span>(<span class="ident">err_ctx</span>) =&gt; {
+            <span class="kw">let</span> <span class="ident">ctx</span> <span class="op">=</span> <span class="ident">err_ctx</span>.<span class="ident">ctx</span>;
+            <span class="macro">println!</span>(
+                <span class="string">&quot;Error in autocomplete callback for command {:?}: {}&quot;</span>,
+                <span class="ident">ctx</span>.<span class="ident">command</span>.<span class="ident">slash_or_context_menu_name</span>(),
+                <span class="ident">e</span>
+            )
         }
         <span class="ident"><span class="kw">crate</span>::ErrorContext::Setup</span> =&gt; <span class="macro">println!</span>(<span class="string">&quot;Setup failed: {}&quot;</span>, <span class="ident">e</span>),
     }

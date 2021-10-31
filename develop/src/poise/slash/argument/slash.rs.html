@@ -341,7 +341,7 @@
     <span class="ident">IntegerOutOfBounds</span>,
 }
 <span class="kw">impl</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">SlashArgError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident"><span class="self">Self</span>::CommandStructureMismatch</span>(<span class="ident">detail</span>) =&gt; {
                 <span class="macro">write!</span>(
@@ -382,8 +382,8 @@
     <span class="doccomment">/// Only fields about the argument type are filled in. The caller is still responsible for</span>
     <span class="doccomment">/// filling in `name()`, `description()`, and possibly `required()` or other fields.</span>
     <span class="kw">fn</span> <span class="ident">create</span>(
-        <span class="ident">builder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
-    ) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>;
+        <span class="ident">builder</span>: <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
+    ) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>;
 }
 
 <span class="doccomment">/// Implemented for all types that can be used as a function parameter in a slash command.</span>
@@ -403,8 +403,8 @@
 
     <span class="kw">fn</span> <span class="ident">create</span>(
         <span class="self">self</span>,
-        <span class="ident">builder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
-    ) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>;
+        <span class="ident">builder</span>: <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
+    ) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>;
 }
 
 <span class="doccomment">/// Handles arbitrary types that can be parsed from string.</span>
@@ -431,8 +431,8 @@
 
     <span class="kw">fn</span> <span class="ident">create</span>(
         <span class="self">self</span>,
-        <span class="ident">builder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
-    ) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
+        <span class="ident">builder</span>: <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
+    ) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
         <span class="ident">builder</span>.<span class="ident">kind</span>(<span class="ident">serenity::ApplicationCommandOptionType::String</span>)
     }
 }
@@ -457,8 +457,8 @@
 
     <span class="kw">fn</span> <span class="ident">create</span>(
         <span class="self">self</span>,
-        <span class="ident">builder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
-    ) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
+        <span class="ident">builder</span>: <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
+    ) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
         <span class="ident">builder</span>.<span class="ident">kind</span>(<span class="ident">serenity::ApplicationCommandOptionType::Integer</span>)
     }
 }
@@ -479,8 +479,8 @@
 
     <span class="kw">fn</span> <span class="ident">create</span>(
         <span class="self">self</span>,
-        <span class="ident">builder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
-    ) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
+        <span class="ident">builder</span>: <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
+    ) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
         <span class="ident">builder</span>.<span class="ident">kind</span>(<span class="ident">serenity::ApplicationCommandOptionType::Number</span>)
     }
 }
@@ -501,8 +501,8 @@
 
     <span class="kw">fn</span> <span class="ident">create</span>(
         <span class="self">self</span>,
-        <span class="ident">builder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
-    ) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
+        <span class="ident">builder</span>: <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
+    ) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
         <span class="ident">builder</span>.<span class="ident">kind</span>(<span class="ident">serenity::ApplicationCommandOptionType::Number</span>)
     }
 }
@@ -521,8 +521,8 @@
 
     <span class="kw">fn</span> <span class="ident">create</span>(
         <span class="self">self</span>,
-        <span class="ident">builder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
-    ) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
+        <span class="ident">builder</span>: <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
+    ) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
         <span class="op">&lt;</span><span class="ident">T</span> <span class="kw">as</span> <span class="ident">SlashArgument</span><span class="op">&gt;</span><span class="ident">::create</span>(<span class="ident">builder</span>)
     }
 }
@@ -547,8 +547,8 @@
 
             <span class="kw">fn</span> <span class="ident">create</span>(
                 <span class="self">self</span>,
-                <span class="ident">builder</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
-            ) -&gt; <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
+                <span class="ident">builder</span>: <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span>,
+            ) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">serenity::CreateApplicationCommandOption</span> {
                 <span class="ident">builder</span>.<span class="ident">kind</span>(<span class="ident">serenity::ApplicationCommandOptionType</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">slash_param_type</span>)
             }
         }
