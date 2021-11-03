@@ -530,6 +530,9 @@
 <span id="530">530</span>
 <span id="531">531</span>
 <span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Plain data structs that define the framework configuration.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>, <span class="ident">BoxFuture</span>};
@@ -907,6 +910,8 @@
     <span class="kw">pub</span> <span class="ident">on_error</span>: <span class="kw">fn</span>(<span class="ident">E</span>, <span class="ident">ErrorContext</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>) -&gt; <span class="ident">BoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, ()<span class="op">&gt;</span>,
     <span class="doccomment">/// Called before every command</span>
     <span class="kw">pub</span> <span class="ident">pre_command</span>: <span class="kw">fn</span>(<span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>) -&gt; <span class="ident">BoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, ()<span class="op">&gt;</span>,
+    <span class="doccomment">/// Called after every command</span>
+    <span class="kw">pub</span> <span class="ident">post_command</span>: <span class="kw">fn</span>(<span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>) -&gt; <span class="ident">BoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, ()<span class="op">&gt;</span>,
     <span class="doccomment">/// Provide a callback to be invoked before every command. The command will only be executed</span>
     <span class="doccomment">/// if the callback returns true.</span>
     <span class="doccomment">///</span>
@@ -1038,6 +1043,7 @@
             },
             <span class="ident">listener</span>: <span class="op">|</span><span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span><span class="op">|</span> <span class="ident">Box::pin</span>(<span class="kw">async</span> { <span class="prelude-val">Ok</span>(()) }),
             <span class="ident">pre_command</span>: <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Box::pin</span>(<span class="kw">async</span> {}),
+            <span class="ident">post_command</span>: <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">Box::pin</span>(<span class="kw">async</span> {}),
             <span class="ident">command_check</span>: <span class="prelude-val">None</span>,
             <span class="ident">allowed_mentions</span>: <span class="prelude-val">Some</span>({
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">serenity::CreateAllowedMentions::default</span>();

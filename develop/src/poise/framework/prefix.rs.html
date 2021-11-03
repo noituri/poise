@@ -256,6 +256,10 @@
 <span id="256">256</span>
 <span id="257">257</span>
 <span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 
 <span class="comment">// Returns message with (only) bot prefix removed, if it matches</span>
@@ -503,7 +507,7 @@
     (<span class="ident">this</span>.<span class="ident">options</span>.<span class="ident">pre_command</span>)(<span class="ident"><span class="kw">crate</span>::Context::Prefix</span>(<span class="ident">ctx</span>)).<span class="kw">await</span>;
 
     <span class="comment">// Execute command</span>
-    (<span class="ident">command</span>.<span class="ident">action</span>)(<span class="ident">ctx</span>, <span class="ident">args</span>).<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> (<span class="ident">command</span>.<span class="ident">action</span>)(<span class="ident">ctx</span>, <span class="ident">args</span>).<span class="kw">await</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
         <span class="prelude-val">Some</span>((
             <span class="ident">e</span>,
             <span class="ident"><span class="kw">crate</span>::PrefixCommandErrorContext</span> {
@@ -512,7 +516,11 @@
                 <span class="ident">while_checking</span>: <span class="bool-val">false</span>,
             },
         ))
-    })
+    });
+
+    (<span class="ident">this</span>.<span class="ident">options</span>.<span class="ident">post_command</span>)(<span class="ident"><span class="kw">crate</span>::Context::Prefix</span>(<span class="ident">ctx</span>)).<span class="kw">await</span>;
+
+    <span class="ident">res</span>
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>

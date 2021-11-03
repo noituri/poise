@@ -269,6 +269,8 @@
 <span id="269">269</span>
 <span id="270">270</span>
 <span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 
 <span class="kw">fn</span> <span class="ident">find_matching_application_command</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>(
@@ -486,6 +488,8 @@
             },
         },
     };
+
+    (<span class="ident">framework</span>.<span class="ident">options</span>.<span class="ident">post_command</span>)(<span class="ident"><span class="kw">crate</span>::Context::Application</span>(<span class="ident">ctx</span>)).<span class="kw">await</span>;
 
     <span class="ident">action_result</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
         <span class="prelude-val">Some</span>((
