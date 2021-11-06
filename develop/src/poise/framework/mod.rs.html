@@ -366,6 +366,7 @@
 <span id="366">366</span>
 <span id="367">367</span>
 <span id="368">368</span>
+<span id="369">369</span>
 </pre><pre class="rust"><code><span class="doccomment">//! The central Framework struct that ties everything together.</span>
 
 <span class="comment">// Prefix and slash specific implementation details</span>
@@ -563,7 +564,7 @@
         <span class="kw">let</span> <span class="ident">edit_track_cache_purge_task</span> <span class="op">=</span> <span class="ident">tokio::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
             <span class="kw">loop</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">edit_tracker</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>.<span class="ident">prefix_options</span>.<span class="ident">edit_tracker</span> {
-                    <span class="ident">edit_tracker</span>.<span class="ident">write</span>().<span class="ident">purge</span>();
+                    <span class="ident">edit_tracker</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>().<span class="ident">purge</span>();
                 }
                 <span class="comment">// not sure if the purging interval should be configurable</span>
                 <span class="ident">tokio::time::sleep</span>(<span class="ident">std::time::Duration::from_secs</span>(<span class="number">60</span>)).<span class="kw">await</span>;
@@ -644,7 +645,7 @@
             }
             <span class="ident">Event::MessageUpdate</span> { <span class="ident">event</span>, .. } =&gt; {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">edit_tracker</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>.<span class="ident">prefix_options</span>.<span class="ident">edit_tracker</span> {
-                    <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">edit_tracker</span>.<span class="ident">write</span>().<span class="ident">process_message_update</span>(
+                    <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">edit_tracker</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>().<span class="ident">process_message_update</span>(
                         <span class="ident">event</span>,
                         <span class="self">self</span>.<span class="ident">options</span>().<span class="ident">prefix_options</span>.<span class="ident">ignore_edit_tracker_cache</span>,
                     );
@@ -670,6 +671,7 @@
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">edit_tracker</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">options</span>.<span class="ident">prefix_options</span>.<span class="ident">edit_tracker</span> {
                     <span class="kw">let</span> <span class="ident">bot_response</span> <span class="op">=</span> <span class="ident">edit_tracker</span>
                         .<span class="ident">write</span>()
+                        .<span class="ident">unwrap</span>()
                         .<span class="ident">find_bot_response</span>(<span class="kw-2">*</span><span class="ident">deleted_message_id</span>)
                         .<span class="ident">cloned</span>();
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">bot_response</span>) <span class="op">=</span> <span class="ident">bot_response</span> {

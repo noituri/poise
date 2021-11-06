@@ -306,8 +306,8 @@
     <span class="doccomment">/// Note: [`EditTracker`] will only purge messages outside the duration when [`Self::purge`]</span>
     <span class="doccomment">/// is called. If you supply the created [`EditTracker`] to [`crate::Framework`], the framework</span>
     <span class="doccomment">/// will take care of that by calling [`Self::purge`] periodically.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">for_timespan</span>(<span class="ident">duration</span>: <span class="ident">std::time::Duration</span>) -&gt; <span class="ident">parking_lot::RwLock</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="ident">parking_lot::RwLock::new</span>(<span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">for_timespan</span>(<span class="ident">duration</span>: <span class="ident">std::time::Duration</span>) -&gt; <span class="ident">std::sync::RwLock</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="ident">std::sync::RwLock::new</span>(<span class="self">Self</span> {
             <span class="ident">max_duration</span>: <span class="ident">duration</span>,
             <span class="ident">cache</span>: <span class="ident">Vec::new</span>(),
         })
@@ -410,7 +410,7 @@
             .<span class="ident">prefix_options</span>
             .<span class="ident">edit_tracker</span>
             .<span class="ident">as_ref</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="ident">t</span>.<span class="ident">write</span>())
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="ident">t</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>())
     };
 
     <span class="kw">let</span> <span class="ident">existing_response</span> <span class="op">=</span> <span class="ident">lock_edit_tracker</span>()
