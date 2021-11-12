@@ -246,6 +246,7 @@
 <span id="246">246</span>
 <span id="247">247</span>
 <span id="248">248</span>
+<span id="249">249</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Tools for implementing automatic edit tracking, i.e. the bot automatically updating its response</span>
 <span class="doccomment">//! when the user edits their command invocation message.</span>
 
@@ -334,6 +335,7 @@
                 <span class="comment">// Note: this may be Some, but still identical to previous content. We want to</span>
                 <span class="comment">// re-run the command in that case too; because that means the user explicitly</span>
                 <span class="comment">// edited their message</span>
+                <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::question_mark</span>)]</span>
                 <span class="kw">if</span> <span class="ident">user_msg_update</span>.<span class="ident">content</span>.<span class="ident">is_none</span>() {
                     <span class="kw">return</span> <span class="prelude-val">None</span>;
                 }
