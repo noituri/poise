@@ -245,6 +245,8 @@
 <span id="245">245</span>
 <span id="246">246</span>
 <span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Tools for implementing automatic edit tracking, i.e. the bot automatically updating its response</span>
 <span class="doccomment">//! when the user edits their command invocation message.</span>
 
@@ -306,8 +308,8 @@
     <span class="doccomment">/// Note: [`EditTracker`] will only purge messages outside the duration when [`Self::purge`]</span>
     <span class="doccomment">/// is called. If you supply the created [`EditTracker`] to [`crate::Framework`], the framework</span>
     <span class="doccomment">/// will take care of that by calling [`Self::purge`] periodically.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">for_timespan</span>(<span class="ident">duration</span>: <span class="ident">std::time::Duration</span>) -&gt; <span class="ident">parking_lot::RwLock</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="ident">parking_lot::RwLock::new</span>(<span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">for_timespan</span>(<span class="ident">duration</span>: <span class="ident">std::time::Duration</span>) -&gt; <span class="ident">std::sync::RwLock</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+        <span class="ident">std::sync::RwLock::new</span>(<span class="self">Self</span> {
             <span class="ident">max_duration</span>: <span class="ident">duration</span>,
             <span class="ident">cache</span>: <span class="ident">Vec::new</span>(),
         })
@@ -329,11 +331,13 @@
             .<span class="ident">find</span>(<span class="op">|</span>(<span class="ident">user_msg</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">user_msg</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">user_msg_update</span>.<span class="ident">id</span>)
         {
             <span class="prelude-val">Some</span>((<span class="ident">user_msg</span>, <span class="kw">_</span>)) =&gt; {
-                <span class="comment">// If message content didn&#39;t change, don&#39;t re-run command</span>
-                <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">user_msg_update</span>.<span class="ident">content</span> {
-                    <span class="prelude-val">Some</span>(<span class="ident">content</span>) <span class="kw">if</span> <span class="ident">content</span> <span class="op">==</span> <span class="kw-2">&amp;</span><span class="ident">user_msg</span>.<span class="ident">content</span> =&gt; <span class="kw">return</span> <span class="prelude-val">None</span>,
-                    <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="prelude-val">None</span>,
-                    <span class="kw">_</span> =&gt; {}
+                <span class="comment">// If message content wasn&#39;t touched, don&#39;t re-run command</span>
+                <span class="comment">// Note: this may be Some, but still identical to previous content. We want to</span>
+                <span class="comment">// re-run the command in that case too; because that means the user explicitly</span>
+                <span class="comment">// edited their message</span>
+                <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::question_mark</span>)]</span>
+                <span class="kw">if</span> <span class="ident">user_msg_update</span>.<span class="ident">content</span>.<span class="ident">is_none</span>() {
+                    <span class="kw">return</span> <span class="prelude-val">None</span>;
                 }
 
                 <span class="ident">update_message</span>(<span class="ident">user_msg</span>, <span class="ident">user_msg_update</span>.<span class="ident">clone</span>());
@@ -384,9 +388,9 @@
 }
 
 <span class="doccomment">/// Prefix-specific reply function. For more details, see [`crate::send_reply`].</span>
-<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">send_prefix_reply</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>(
+<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">send_prefix_reply</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>(
     <span class="ident">ctx</span>: <span class="ident"><span class="kw">crate</span>::prefix::PrefixContext</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
-    <span class="ident">builder</span>: <span class="kw">impl</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident"><span class="kw">crate</span>::CreateReply</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident"><span class="kw">crate</span>::CreateReply</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>,
+    <span class="ident">builder</span>: <span class="kw">impl</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="ident"><span class="kw">crate</span>::CreateReply</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="ident"><span class="kw">crate</span>::CreateReply</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">serenity::Message</span>, <span class="ident">serenity::Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reply</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::CreateReply::default</span>();
     <span class="ident">builder</span>(<span class="kw-2">&amp;mut</span> <span class="ident">reply</span>);
@@ -410,7 +414,7 @@
             .<span class="ident">prefix_options</span>
             .<span class="ident">edit_tracker</span>
             .<span class="ident">as_ref</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="ident">t</span>.<span class="ident">write</span>())
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="ident">t</span>.<span class="ident">write</span>().<span class="ident">unwrap</span>())
     };
 
     <span class="kw">let</span> <span class="ident">existing_response</span> <span class="op">=</span> <span class="ident">lock_edit_tracker</span>()

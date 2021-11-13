@@ -392,7 +392,7 @@
     <span class="kw">pub</span> <span class="ident">mention_as_prefix</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// If Some, the framework will react to message edits by editing the corresponding bot response</span>
     <span class="doccomment">/// with the new result.</span>
-    <span class="kw">pub</span> <span class="ident">edit_tracker</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">parking_lot::RwLock</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EditTracker</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">edit_tracker</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">std::sync::RwLock</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EditTracker</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Wether or not to ignore message edits on messages outside the cache.</span>
     <span class="doccomment">/// This can happen if the message edit happens while the command is being invoked, or the</span>
     <span class="doccomment">/// original message wasn&#39;t a command.</span>
