@@ -76,6 +76,44 @@ You can edit your message to the bot and the bot will edit its response.</code><
     .<span class="kw">await</span><span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }</code></pre></div>
-</div></div></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="poise" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
+</div></div><details class="rustdoc-toggle more-examples-toggle"><summary class="hideme"><span>More examples</span></summary><div class="more-scraped-examples"><div class="toggle-line"><div class="toggle-line-inner"></div></div><div class="more-scraped-examples-inner"><div class="scraped-example " data-locs="[[[9,14],&quot;../../src/serenity_example_port/main.rs.html#115-120&quot;,&quot;lines 115-120&quot;]]"><div class="scraped-example-title">examples/serenity_example_port/main.rs (<a href="../../src/serenity_example_port/main.rs.html#115-120">lines 115-120</a>)</div><div class="code-wrapper"><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>106</span>
+<span>107</span>
+<span>108</span>
+<span>109</span>
+<span>110</span>
+<span>111</span>
+<span>112</span>
+<span>113</span>
+<span>114</span>
+<span>115</span>
+<span>116</span>
+<span>117</span>
+<span>118</span>
+<span>119</span>
+<span>120</span>
+<span>121</span>
+<span>122</span>
+<span>123</span>
+<span>124</span>
+</pre><pre class="rust"><code><span class="kw">async</span> <span class="kw">fn</span> <span class="ident">help</span>(
+    <span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
+    <span class="attribute">#[<span class="ident">description</span> <span class="op">=</span> <span class="string">&quot;Command to display specific information about&quot;</span>]</span> <span class="ident">command</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">extra_text_at_bottom</span> <span class="op">=</span> <span class="string">&quot;\
+Hello! こんにちは！Hola! Bonjour! 您好! 안녕하세요~
+
+If you want more information about a specific command, just pass the command as argument.&quot;</span>;
+
+    <span class="highlight focus"><span class="ident">poise::samples::help</span>(
+        <span class="ident">ctx</span>,
+        <span class="ident">command</span>.<span class="ident">as_deref</span>(),
+        <span class="ident">extra_text_at_bottom</span>,
+        <span class="ident">poise::samples::HelpResponseMode::Default</span>,
+    )</span>
+    .<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div>
+</div></div></div></div></details></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="poise" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
     <script src="../../main.js"></script><script src="../../scrape-examples.js"></script>
 </body></html>

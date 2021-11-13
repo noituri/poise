@@ -24,7 +24,45 @@
         <span class="kw">_</span> =&gt; <span class="macro">println!</span>(<span class="string">&quot;Other error: {:?}&quot;</span>, <span class="ident">error</span>),
     }
 }</code></pre></div>
-</div></div></div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.while_checking" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/structs.rs.html#260-265" title="goto source code">[src]</a></div><a href="#method.while_checking" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.while_checking" class="fnname">while_checking</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></h4></div></summary><div class="docblock"><p>Whether the error occured in a pre-command check or during execution</p>
+</div></div><details class="rustdoc-toggle more-examples-toggle"><summary class="hideme"><span>More examples</span></summary><div class="more-scraped-examples"><div class="toggle-line"><div class="toggle-line-inner"></div></div><div class="more-scraped-examples-inner"><div class="scraped-example " data-locs="[[[5,5],&quot;../src/serenity_example_port/main.rs.html#168&quot;,&quot;line 168&quot;]]"><div class="scraped-example-title">examples/serenity_example_port/main.rs (<a href="../src/serenity_example_port/main.rs.html#168">line 168</a>)</div><div class="code-wrapper"><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>163</span>
+<span>164</span>
+<span>165</span>
+<span>166</span>
+<span>167</span>
+<span>168</span>
+<span>169</span>
+<span>170</span>
+<span>171</span>
+<span>172</span>
+<span>173</span>
+<span>174</span>
+<span>175</span>
+<span>176</span>
+<span>177</span>
+<span>178</span>
+<span>179</span>
+<span>180</span>
+<span>181</span>
+</pre><pre class="rust"><code><span class="kw">async</span> <span class="kw">fn</span> <span class="ident">on_error</span>(<span class="ident">error</span>: <span class="ident">Error</span>, <span class="ident">ctx</span>: <span class="ident">poise::ErrorContext</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Data</span>, <span class="ident">Error</span><span class="op">&gt;</span>) {
+    <span class="kw">match</span> <span class="ident">ctx</span> {
+        <span class="ident">poise::ErrorContext::Command</span>(<span class="ident">ctx</span>) =&gt; {
+            <span class="macro">println!</span>(
+                <span class="string">&quot;Command &#39;{}&#39; returned error {:?}&quot;</span>,
+                <span class="ident">ctx</span>.<span class="highlight focus"><span class="ident">command</span>()</span>.<span class="ident">name</span>(),
+                <span class="ident">error</span>
+            );
+        }
+        <span class="ident">poise::ErrorContext::Listener</span>(<span class="ident">event</span>) =&gt; {
+            <span class="macro">println!</span>(
+                <span class="string">&quot;Listener returned error during {} event: {:?}&quot;</span>,
+                <span class="ident">event</span>.<span class="ident">name</span>(),
+                <span class="ident">error</span>
+            );
+        }
+        <span class="kw">_</span> =&gt; {}
+    }
+}</code></pre></div>
+</div></div></div></div></details></div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.while_checking" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/structs.rs.html#260-265" title="goto source code">[src]</a></div><a href="#method.while_checking" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.while_checking" class="fnname">while_checking</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></h4></div></summary><div class="docblock"><p>Whether the error occured in a pre-command check or during execution</p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.ctx" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/structs.rs.html#268-273" title="goto source code">[src]</a></div><a href="#method.ctx" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.ctx" class="fnname">ctx</a>(&amp;self) -&gt; <a class="enum" href="enum.Context.html" title="enum poise::Context">Context</a>&lt;'a, U, E&gt;</h4></div></summary><div class="docblock"><p>Further command context</p>
 </div></details></div></details><h2 id="trait-implementations" class="small-section-header">Trait Implementations<a href="#trait-implementations" class="anchor"></a></h2><div id="trait-implementations-list"><details class="rustdoc-toggle implementors-toggle" open><summary><div id="impl-Clone" class="impl has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/structs.rs.html#227-234" title="goto source code">[src]</a></div><a href="#impl-Clone" class="anchor"></a><h3 class="code-header in-band">impl&lt;U, E&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="enum" href="enum.CommandErrorContext.html" title="enum poise::CommandErrorContext">CommandErrorContext</a>&lt;'_, U, E&gt;</h3></div></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><div id="method.clone" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/structs.rs.html#228-233" title="goto source code">[src]</a></div><a href="#method.clone" class="anchor"></a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone" class="fnname">clone</a>(&amp;self) -&gt; Self</h4></div></summary><div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.clone_from" class="method trait-impl has-srclink"><div class="rightside"><span class="since" title="Stable since Rust version 1.0.0">1.0.0</span><a class="srclink" href="https://doc.rust-lang.org/nightly/src/core/clone.rs.html#130" title="goto source code">[src]</a></div><a href="#method.clone_from" class="anchor"></a><h4 class="code-header">fn <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from" class="fnname">clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Self)</h4></div></summary><div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>

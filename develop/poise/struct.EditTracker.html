@@ -102,7 +102,209 @@ will take care of that by calling <a href="struct.EditTracker.html#method.purge"
         .<span class="kw">await</span>
         .<span class="ident">unwrap</span>();
 }</code></pre></div>
-</div></div></div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.process_message_update" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/prefix/track_edits.rs.html#74-107" title="goto source code">[src]</a></div><a href="#method.process_message_update" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.process_message_update" class="fnname">process_message_update</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;user_msg_update: &amp;<a class="struct" href="https://docs.rs/serenity/*/serenity/model/event/struct.MessageUpdateEvent.html" title="struct serenity::model::event::MessageUpdateEvent">MessageUpdateEvent</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;ignore_edit_tracker_cache: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://docs.rs/serenity/*/serenity/model/channel/message/struct.Message.html" title="struct serenity::model::channel::message::Message">Message</a>&gt;</h4></div></summary><div class="docblock"><p>Returns a copy of a newly up-to-date cached message, or a brand new generated message when
+</div></div><details class="rustdoc-toggle more-examples-toggle"><summary class="hideme"><span>More examples</span></summary><div class="more-scraped-examples"><div class="toggle-line"><div class="toggle-line-inner"></div></div><div class="more-scraped-examples-inner"><div class="scraped-example " data-locs="[[[19,21],&quot;../src/serenity_example_port/main.rs.html#255-257&quot;,&quot;lines 255-257&quot;]]"><div class="scraped-example-title">examples/serenity_example_port/main.rs (<a href="../src/serenity_example_port/main.rs.html#255-257">lines 255-257</a>)</div><div class="code-wrapper"><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>236</span>
+<span>237</span>
+<span>238</span>
+<span>239</span>
+<span>240</span>
+<span>241</span>
+<span>242</span>
+<span>243</span>
+<span>244</span>
+<span>245</span>
+<span>246</span>
+<span>247</span>
+<span>248</span>
+<span>249</span>
+<span>250</span>
+<span>251</span>
+<span>252</span>
+<span>253</span>
+<span>254</span>
+<span>255</span>
+<span>256</span>
+<span>257</span>
+<span>258</span>
+<span>259</span>
+<span>260</span>
+<span>261</span>
+<span>262</span>
+<span>263</span>
+<span>264</span>
+<span>265</span>
+<span>266</span>
+<span>267</span>
+<span>268</span>
+<span>269</span>
+<span>270</span>
+<span>271</span>
+<span>272</span>
+<span>273</span>
+<span>274</span>
+<span>275</span>
+<span>276</span>
+<span>277</span>
+<span>278</span>
+<span>279</span>
+<span>280</span>
+<span>281</span>
+<span>282</span>
+<span>283</span>
+<span>284</span>
+<span>285</span>
+<span>286</span>
+<span>287</span>
+<span>288</span>
+<span>289</span>
+<span>290</span>
+<span>291</span>
+<span>292</span>
+<span>293</span>
+<span>294</span>
+<span>295</span>
+<span>296</span>
+<span>297</span>
+<span>298</span>
+<span>299</span>
+<span>300</span>
+<span>301</span>
+<span>302</span>
+<span>303</span>
+<span>304</span>
+<span>305</span>
+<span>306</span>
+<span>307</span>
+<span>308</span>
+<span>309</span>
+<span>310</span>
+<span>311</span>
+<span>312</span>
+<span>313</span>
+<span>314</span>
+<span>315</span>
+<span>316</span>
+<span>317</span>
+<span>318</span>
+<span>319</span>
+<span>320</span>
+<span>321</span>
+<span>322</span>
+<span>323</span>
+<span>324</span>
+<span>325</span>
+<span>326</span>
+<span>327</span>
+<span>328</span>
+<span>329</span>
+<span>330</span>
+<span>331</span>
+<span>332</span>
+<span>333</span>
+<span>334</span>
+<span>335</span>
+<span>336</span>
+</pre><pre class="rust"><code><span class="kw">fn</span> <span class="ident">main</span>() {
+    <span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="ident">poise::FrameworkOptions</span> {
+        <span class="ident">listener</span>: <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">event</span>, <span class="ident">framework</span>, <span class="ident">user_data</span><span class="op">|</span> {
+            <span class="ident">Box::pin</span>(<span class="ident">event_listener</span>(<span class="ident">ctx</span>, <span class="ident">event</span>, <span class="ident">framework</span>, <span class="ident">user_data</span>))
+        },
+        <span class="ident">on_error</span>: <span class="op">|</span><span class="ident">error</span>, <span class="ident">ctx</span><span class="op">|</span> <span class="ident">Box::pin</span>(<span class="ident">on_error</span>(<span class="ident">error</span>, <span class="ident">ctx</span>)),
+        <span class="comment">// Set a function to be called prior to each command execution. This</span>
+        <span class="comment">// provides all context of the command that would also be passed to the actual command code</span>
+        <span class="ident">pre_command</span>: <span class="op">|</span><span class="ident">ctx</span><span class="op">|</span> <span class="ident">Box::pin</span>(<span class="ident">pre_command</span>(<span class="ident">ctx</span>)),
+        <span class="comment">// Similar to `pre_command`, except will be called directly _after_</span>
+        <span class="comment">// command execution.</span>
+        <span class="ident">post_command</span>: <span class="op">|</span><span class="ident">ctx</span><span class="op">|</span> <span class="ident">Box::pin</span>(<span class="ident">post_command</span>(<span class="ident">ctx</span>)),
+
+        <span class="comment">// Options specific to prefix commands, i.e. commands invoked via chat messages</span>
+        <span class="ident">prefix_options</span>: <span class="ident">poise::PrefixFrameworkOptions</span> {
+            <span class="ident">prefix</span>: <span class="prelude-val">Some</span>(<span class="ident">String::from</span>(<span class="string">&quot;~&quot;</span>)),
+
+            <span class="ident">mention_as_prefix</span>: <span class="bool-val">false</span>,
+            <span class="comment">// An edit tracker needs to be supplied here to make edit tracking in commands work</span>
+            <span class="ident">edit_tracker</span>: <span class="prelude-val">Some</span>(<span class="highlight focus"><span class="ident">poise::EditTracker::for_timespan</span>(
+                <span class="ident">std::time::Duration::from_secs</span>(<span class="number">3600</span> <span class="op">*</span> <span class="number">3</span>),
+            )</span>),
+            ..<span class="ident">Default::default</span>()
+        },
+
+        ..<span class="ident">Default::default</span>()
+    };
+
+    <span class="comment">// The Framework builder will automatically retrieve the bot owner and application ID via the</span>
+    <span class="comment">// passed token, so that information need not be passed here</span>
+    <span class="ident">poise::Framework::build</span>()
+        <span class="comment">// Configure the client with your Discord bot token in the environment.</span>
+        .<span class="ident">token</span>(<span class="ident">std::env::var</span>(<span class="string">&quot;DISCORD_TOKEN&quot;</span>).<span class="ident">expect</span>(<span class="string">&quot;Expected DISCORD_TOKEN in the environment&quot;</span>))
+        .<span class="ident">options</span>(<span class="ident">options</span>)
+        .<span class="ident">user_data_setup</span>(<span class="op">|</span><span class="ident">_ctx</span>, <span class="ident">_data_about_bot</span>, <span class="ident">_framework</span><span class="op">|</span> {
+            <span class="ident">Box::pin</span>(<span class="kw">async</span> <span class="kw">move</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">Data</span> {
+                    <span class="ident">command_counter</span>: <span class="ident">std::sync::Mutex::new</span>(<span class="ident">std::collections::HashMap::new</span>()),
+                })
+            })
+        })
+        <span class="comment">// The `#[poise::command(prefix_command, slash_command)]` macro transforms the function into</span>
+        <span class="comment">// `fn() -&gt; poise::CommandDefinition`.</span>
+        <span class="comment">// Therefore, you need to call the command function without any arguments to get the</span>
+        <span class="comment">// command definition instance to pass to the framework</span>
+        .<span class="ident">command</span>(<span class="ident">help</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
+        <span class="comment">// This function registers slash commands on Discord. When you change something about a</span>
+        <span class="comment">// command signature, for example by changing its name, adding or removing parameters, or</span>
+        <span class="comment">// changing a parameter type, you should call this function.</span>
+        .<span class="ident">command</span>(<span class="ident">register</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
+        <span class="comment">// If a category is associated with the command, it&#39;s specified in the builder</span>
+        .<span class="ident">command</span>(<span class="ident">about</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;General&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">am_i_admin</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;General&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">say</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;General&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">commands</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;General&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">ping</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;General&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">latency</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;General&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">some_long_command</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;General&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">upper_command</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> {
+            <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;General&quot;</span>)
+                <span class="comment">// A command can have sub-commands, just like in command lines tools.</span>
+                <span class="comment">// Imagine `cargo help` and `cargo help run`.</span>
+                <span class="comment">// Subcommands are also specified here, inside the builder</span>
+                .<span class="ident">subcommand</span>(<span class="ident">sub</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
+        })
+        .<span class="ident">command</span>(<span class="ident">bird</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;Emoji&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">cat</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;Emoji&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">dog</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;Emoji&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">multiply</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;Math&quot;</span>))
+        .<span class="ident">command</span>(<span class="ident">slow_mode</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">category</span>(<span class="string">&quot;Owner&quot;</span>))
+        .<span class="ident">run</span>()
+        .<span class="kw">await</span>
+        .<span class="ident">expect</span>(<span class="string">&quot;Client error&quot;</span>);
+
+    <span class="comment">// INFO: currently not supported by poise</span>
+    <span class="comment">/*
+    // Set a function that&#39;s called whenever an attempted command-call&#39;s
+    // command could not be found.
+    .unrecognised_command(unknown_command)
+    // Set a function that&#39;s called whenever a message is not a command.
+    .normal_message(normal_message)
+    // Set a function that&#39;s called whenever a command&#39;s execution didn&#39;t complete for one
+    // reason or another. For example, when a user has exceeded a rate-limit or a command
+    // can only be performed by the bot owner.
+    .on_dispatch_error(dispatch_error)
+    // Can&#39;t be used more than once per 5 seconds:
+    .bucket(&quot;emoji&quot;, |b| b.delay(5)).await
+    // Can&#39;t be used more than 2 times per 30 seconds, with a 5 second delay applying per channel.
+    // Optionally `await_ratelimits` will delay until the command can be executed instead of
+    // cancelling the command invocation.
+    .bucket(&quot;complicated&quot;, |b| b.limit(2).time_span(30).delay(5)
+        // The target each bucket will apply to.
+        .limit_for(LimitedFor::Channel)
+        // The maximum amount of command invocations that can be delayed per target.
+        // Setting this to 0 (default) will never await/delay commands and cancel the invocation.
+        .await_ratelimits(1)
+        // A function to call when a rate limit leads to a delay.
+        .delay_action(delay_action)
+    ).await
+    */</span>
+}</code></pre></div>
+</div></div></div></div></details></div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.process_message_update" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/prefix/track_edits.rs.html#74-107" title="goto source code">[src]</a></div><a href="#method.process_message_update" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.process_message_update" class="fnname">process_message_update</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;user_msg_update: &amp;<a class="struct" href="https://docs.rs/serenity/*/serenity/model/event/struct.MessageUpdateEvent.html" title="struct serenity::model::event::MessageUpdateEvent">MessageUpdateEvent</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;ignore_edit_tracker_cache: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://docs.rs/serenity/*/serenity/model/channel/message/struct.Message.html" title="struct serenity::model::channel::message::Message">Message</a>&gt;</h4></div></summary><div class="docblock"><p>Returns a copy of a newly up-to-date cached message, or a brand new generated message when
 not in cache</p>
 <p>Returns None if the command shouldn’t be re-run, e.g. if the message content stayed the
 same</p>
