@@ -163,7 +163,6 @@
 <span id="163">163</span>
 <span id="164">164</span>
 <span id="165">165</span>
-<span id="166">166</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::BoxFuture</span>;
 
@@ -189,8 +188,7 @@
         <span class="op">&gt;</span>,
     <span class="op">&gt;</span>,
     <span class="ident">options</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::FrameworkOptions</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">client_settings</span>:
-        <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">FnOnce</span>(<span class="ident">serenity::ClientBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">serenity::ClientBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">client_settings</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">FnOnce</span>(<span class="ident">serenity::ClientBuilder</span>) -&gt; <span class="ident">serenity::ClientBuilder</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="ident">intents</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">serenity::GatewayIntents</span><span class="op">&gt;</span>,
     <span class="ident">commands</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(
@@ -248,7 +246,7 @@
     <span class="doccomment">/// [`FrameworkBuilder`]; use [`FrameworkBuilder::token`] to supply a token.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">client_settings</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">f</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">serenity::ClientBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">serenity::ClientBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">f</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">serenity::ClientBuilder</span>) -&gt; <span class="ident">serenity::ClientBuilder</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     ) -&gt; <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">client_settings</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">f</span>));
         <span class="self">self</span>
