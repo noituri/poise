@@ -495,7 +495,7 @@
     <span class="doccomment">/// course of action on error.</span>
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
         <span class="ident">application_id</span>: <span class="ident">serenity::ApplicationId</span>,
-        <span class="ident">client_builder</span>: <span class="ident">serenity::ClientBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
+        <span class="ident">client_builder</span>: <span class="ident">serenity::ClientBuilder</span>,
         <span class="ident">user_data_setup</span>: <span class="ident">F</span>,
         <span class="ident">options</span>: <span class="ident">FrameworkOptions</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">std::sync::Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">serenity::Error</span><span class="op">&gt;</span>
