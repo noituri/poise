@@ -210,6 +210,16 @@
 <span id="209">209</span>
 <span id="210">210</span>
 <span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Holds prefix-command definition structs.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>, <span class="ident">BoxFuture</span>, <span class="ident">Framework</span>};
@@ -260,7 +270,7 @@
     <span class="kw">pub</span> <span class="ident">check</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">fn</span>(<span class="ident">PrefixContext</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>) -&gt; <span class="ident">BoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Whether to enable edit tracking for commands by default.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Note: this won&#39;t do anything if `Framework::edit_tracker` isn&#39;t set.</span>
+    <span class="doccomment">/// Note: only has an effect if `Framework::edit_tracker` is set.</span>
     <span class="kw">pub</span> <span class="ident">track_edits</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// Whether to broadcast a typing indicator while executing this commmand.</span>
     <span class="kw">pub</span> <span class="ident">broadcast_typing</span>: <span class="ident">bool</span>,
@@ -382,6 +392,15 @@
     <span class="doccomment">/// If Some, the framework will react to message edits by editing the corresponding bot response</span>
     <span class="doccomment">/// with the new result.</span>
     <span class="kw">pub</span> <span class="ident">edit_tracker</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">std::sync::RwLock</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::EditTracker</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// If the user makes a typo in their message and a subsequent edit creates a valid invocation,</span>
+    <span class="doccomment">/// the bot will execute the command if this attribute is set. [`Self::edit_tracker`] does not</span>
+    <span class="doccomment">/// need to be set for this.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// That does not mean that any subsequent edits will also trigger execution. For that,</span>
+    <span class="doccomment">/// see [`PrefixCommandOptions::track_edits`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note: only has an effect if [`Self::edit_tracker`] is set.</span>
+    <span class="kw">pub</span> <span class="ident">execute_untracked_edits</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// Wether or not to ignore message edits on messages outside the cache.</span>
     <span class="doccomment">/// This can happen if the message edit happens while the command is being invoked, or the</span>
     <span class="doccomment">/// original message wasn&#39;t a command.</span>
@@ -412,6 +431,7 @@
             <span class="ident">stripped_dynamic_prefix</span>: <span class="prelude-val">None</span>,
             <span class="ident">mention_as_prefix</span>: <span class="bool-val">true</span>,
             <span class="ident">edit_tracker</span>: <span class="prelude-val">None</span>,
+            <span class="ident">execute_untracked_edits</span>: <span class="bool-val">true</span>,
             <span class="ident">ignore_edit_tracker_cache</span>: <span class="bool-val">false</span>,
             <span class="ident">execute_self_messages</span>: <span class="bool-val">false</span>,
             <span class="ident">case_insensitive_commands</span>: <span class="bool-val">true</span>,
@@ -422,5 +442,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (6db0a0e9a 2021-11-29)" ></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
 </body></html>
