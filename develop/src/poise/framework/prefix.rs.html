@@ -283,6 +283,28 @@
 <span id="282">282</span>
 <span id="283">283</span>
 <span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 
 <span class="comment">// Returns message with (only) bot prefix removed, if it matches</span>
@@ -420,8 +442,8 @@
         <span class="comment">// Make sure that user has required permissions</span>
         <span class="kw">if</span> <span class="op">!</span><span class="ident"><span class="kw">super</span>::check_required_permissions_and_owners_only</span>(
             <span class="ident"><span class="kw">crate</span>::Context::Prefix</span>(<span class="ident">prefix_ctx</span>),
-            <span class="ident">command</span>.<span class="ident">options</span>.<span class="ident">required_permissions</span>,
-            <span class="ident">command</span>.<span class="ident">options</span>.<span class="ident">owners_only</span>,
+            <span class="ident">command</span>.<span class="ident">id</span>.<span class="ident">required_permissions</span>,
+            <span class="ident">command</span>.<span class="ident">id</span>.<span class="ident">owners_only</span>,
         )
         .<span class="kw">await</span>
         {
@@ -509,9 +531,10 @@
     .<span class="ident">ok_or</span>(<span class="prelude-val">None</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">command</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">command_meta</span>.<span class="ident">command</span>;
 
-    <span class="kw">if</span> (<span class="ident">triggered_by_edit</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">command</span>.<span class="ident">options</span>.<span class="ident">track_edits</span>)
-        <span class="op">&amp;&amp;</span> <span class="op">!</span>(<span class="op">!</span><span class="ident">previously_tracked</span> <span class="op">&amp;&amp;</span> <span class="ident">this</span>.<span class="ident">options</span>.<span class="ident">prefix_options</span>.<span class="ident">execute_untracked_edits</span>)
-    {
+    <span class="comment">// Check if we should disregard this invocation if it was triggered by an edit</span>
+    <span class="kw">let</span> <span class="ident">should_execute_if_triggered_by_edit</span> <span class="op">=</span> <span class="ident">command</span>.<span class="ident">options</span>.<span class="ident">track_edits</span>
+        <span class="op">|</span><span class="op">|</span> (<span class="op">!</span><span class="ident">previously_tracked</span> <span class="op">&amp;&amp;</span> <span class="ident">this</span>.<span class="ident">options</span>.<span class="ident">prefix_options</span>.<span class="ident">execute_untracked_edits</span>);
+    <span class="kw">if</span> <span class="ident">triggered_by_edit</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">should_execute_if_triggered_by_edit</span> {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>);
     }
 
@@ -542,6 +565,27 @@
     }
     <span class="ident">cooldowns</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">start_cooldown</span>(<span class="ident">ctx</span>.<span class="ident">into</span>());
 
+    <span class="kw">let</span> <span class="ident">missing_bot_permissions</span> <span class="op">=</span>
+        <span class="ident"><span class="kw">super</span>::check_missing_bot_permissions</span>(<span class="ident">ctx</span>.<span class="ident">into</span>(), <span class="ident">command</span>.<span class="ident">id</span>.<span class="ident">required_bot_permissions</span>).<span class="kw">await</span>;
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">missing_bot_permissions</span>.<span class="ident">is_empty</span>() {
+        (<span class="ident">ctx</span>.<span class="ident">framework</span>.<span class="ident">options</span>().<span class="ident">missing_bot_permissions_handler</span>)(
+            <span class="ident">ctx</span>.<span class="ident">into</span>(),
+            <span class="ident">missing_bot_permissions</span>,
+        )
+        .<span class="kw">await</span>
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+            <span class="prelude-val">Some</span>((
+                <span class="ident">e</span>,
+                <span class="ident"><span class="kw">crate</span>::PrefixCommandErrorContext</span> {
+                    <span class="ident">ctx</span>,
+                    <span class="ident">command</span>,
+                    <span class="ident">location</span>: <span class="ident"><span class="kw">crate</span>::CommandErrorLocation::MissingBotPermissionsCallback</span>,
+                },
+            ))
+        })<span class="question-mark">?</span>;
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>);
+    }
+
     <span class="comment">// Typing is broadcasted as long as this object is alive</span>
     <span class="kw">let</span> <span class="ident">_typing_broadcaster</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">command</span>.<span class="ident">options</span>.<span class="ident">broadcast_typing</span> {
         <span class="ident">msg</span>.<span class="ident">channel_id</span>.<span class="ident">start_typing</span>(<span class="kw-2">&amp;</span><span class="ident">ctx</span>.<span class="ident">discord</span>.<span class="ident">http</span>).<span class="ident">ok</span>()
@@ -568,5 +612,5 @@
     <span class="ident">res</span>
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (48a5999fc 2021-12-01)" ></div>
 </body></html>

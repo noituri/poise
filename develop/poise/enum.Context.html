@@ -1561,7 +1561,7 @@ dropped.</p>
 
     <span class="prelude-val">Ok</span>(())
 }</code></pre></div>
-</div></div><details class="rustdoc-toggle more-examples-toggle"><summary class="hideme"><span>More examples</span></summary><div class="more-scraped-examples"><div class="toggle-line"><div class="toggle-line-inner"></div></div><div class="more-scraped-examples-inner"><div class="scraped-example " data-locs="[[[17,17],&quot;../src/framework_usage/commands.rs.html#120&quot;,&quot;line 120&quot;],[[27,27],&quot;../src/framework_usage/commands.rs.html#130&quot;,&quot;line 130&quot;],[[32,32],&quot;../src/framework_usage/commands.rs.html#135&quot;,&quot;line 135&quot;]]"><div class="scraped-example-title">examples/framework_usage/commands.rs (<a href="../src/framework_usage/commands.rs.html#120">line 120</a>)</div><div class="code-wrapper"><span class="prev">&pr;</span> <span class="next">&sc;</span><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>103</span>
+</div></div><details class="rustdoc-toggle more-examples-toggle"><summary class="hideme"><span>More examples</span></summary><div class="more-scraped-examples"><div class="toggle-line"><div class="toggle-line-inner"></div></div><div class="more-scraped-examples-inner"><div class="scraped-example " data-locs="[[[17,17],&quot;../src/framework_usage/commands.rs.html#120&quot;,&quot;line 120&quot;],[[27,27],&quot;../src/framework_usage/commands.rs.html#130&quot;,&quot;line 130&quot;],[[32,32],&quot;../src/framework_usage/commands.rs.html#135&quot;,&quot;line 135&quot;],[[51,51],&quot;../src/framework_usage/commands.rs.html#154&quot;,&quot;line 154&quot;]]"><div class="scraped-example-title">examples/framework_usage/commands.rs (<a href="../src/framework_usage/commands.rs.html#120">line 120</a>)</div><div class="code-wrapper"><span class="prev">&pr;</span> <span class="next">&sc;</span><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>103</span>
 <span>104</span>
 <span>105</span>
 <span>106</span>
@@ -1601,6 +1601,20 @@ dropped.</p>
 <span>140</span>
 <span>141</span>
 <span>142</span>
+<span>143</span>
+<span>144</span>
+<span>145</span>
+<span>146</span>
+<span>147</span>
+<span>148</span>
+<span>149</span>
+<span>150</span>
+<span>151</span>
+<span>152</span>
+<span>153</span>
+<span>154</span>
+<span>155</span>
+<span>156</span>
 </pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">boop</span>(<span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">uuid_boop</span> <span class="op">=</span> <span class="ident">ctx</span>.<span class="ident">id</span>();
 
@@ -1639,6 +1653,20 @@ dropped.</p>
         .<span class="kw">await</span><span class="question-mark">?</span>;
     }
 
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="doccomment">/// Deletes the given message</span>
+<span class="attribute">#[<span class="ident">poise::command</span>(
+    <span class="ident">prefix_command</span>,
+    <span class="ident">slash_command</span>,
+    <span class="ident">required_bot_permissions</span> <span class="op">=</span> <span class="string">&quot;MANAGE_MESSAGES&quot;</span>
+)]</span>
+<span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">delete</span>(
+    <span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
+    <span class="attribute">#[<span class="ident">description</span> <span class="op">=</span> <span class="string">&quot;Message to be deleted&quot;</span>]</span> <span class="ident">msg</span>: <span class="ident">serenity::Message</span>,
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="ident">msg</span>.<span class="ident">delete</span>(<span class="ident">ctx</span>.<span class="highlight"><span class="ident">discord</span>()</span>).<span class="kw">await</span><span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }</code></pre></div>
 </div></div></div></div></details></div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.framework" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/structs.rs.html#108-113" title="goto source code">[src]</a></div><a href="#method.framework" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.framework" class="fnname">framework</a>(&amp;self) -&gt; &amp;'a <a class="struct" href="struct.Framework.html" title="struct poise::Framework">Framework</a>&lt;U, E&gt;</h4></div></summary><div class="docblock"><p>Return a read-only reference to <a href="struct.Framework.html" title="crate::Framework"><code>crate::Framework</code></a>.</p>
@@ -4086,6 +4114,7 @@ fn _dispatch_error_no_macro&lt;&#39;fut&gt;(
 <span>101</span>
 <span>102</span>
 <span>103</span>
+<span>104</span>
 </pre><pre class="rust"><code><span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="ident">poise::FrameworkOptions</span> {
         <span class="ident">prefix_options</span>: <span class="ident">poise::PrefixFrameworkOptions</span> {
@@ -4128,6 +4157,7 @@ fn _dispatch_error_no_macro&lt;&#39;fut&gt;(
         .<span class="ident">command</span>(<span class="ident">commands::add</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::choice</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::boop</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
+        .<span class="ident">command</span>(<span class="ident">commands::delete</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::user_info</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::echo</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">autocomplete::greet</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
@@ -4160,5 +4190,5 @@ fn _dispatch_error_no_macro&lt;&#39;fut&gt;(
 <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_subscriber">Read more</a></p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.with_current_subscriber" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tracing/0.1.29/src/tracing/instrument.rs.html#221" title="goto source code">[src]</a></div><a href="#method.with_current_subscriber" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber" class="fnname">with_current_subscriber</a>(self) -&gt; <a class="struct" href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="struct tracing::instrument::WithDispatch">WithDispatch</a>&lt;Self&gt;</h4></div></summary><div class='docblock'><p>Attaches the current <a href="https://docs.rs/tracing/0.1.29/tracing/dispatcher/index.html#setting-the-default-subscriber">default</a> <a href="https://docs.rs/tracing-core/0.1.21/tracing_core/subscriber/trait.Subscriber.html"><code>Subscriber</code></a> to this type, returning a
 <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber">Read more</a></p>
-</div></details></div></details></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
+</div></details></div></details></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (48a5999fc 2021-12-01)" ></div>
 </body></html>

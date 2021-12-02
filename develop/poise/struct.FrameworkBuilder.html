@@ -60,6 +60,7 @@ owner.</p>
 <span>101</span>
 <span>102</span>
 <span>103</span>
+<span>104</span>
 </pre><pre class="rust"><code><span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="ident">poise::FrameworkOptions</span> {
         <span class="ident">prefix_options</span>: <span class="ident">poise::PrefixFrameworkOptions</span> {
@@ -102,6 +103,7 @@ owner.</p>
         .<span class="ident">command</span>(<span class="ident">commands::add</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::choice</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::boop</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
+        .<span class="ident">command</span>(<span class="ident">commands::delete</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::user_info</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::echo</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">autocomplete::greet</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
@@ -357,6 +359,7 @@ owner.</p>
 <span>101</span>
 <span>102</span>
 <span>103</span>
+<span>104</span>
 </pre><pre class="rust"><code><span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="ident">poise::FrameworkOptions</span> {
         <span class="ident">prefix_options</span>: <span class="ident">poise::PrefixFrameworkOptions</span> {
@@ -399,6 +402,7 @@ owner.</p>
         .<span class="ident">command</span>(<span class="ident">commands::add</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::choice</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::boop</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
+        .<span class="ident">command</span>(<span class="ident">commands::delete</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::user_info</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::echo</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">autocomplete::greet</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
@@ -658,6 +662,7 @@ client builder</p>
 <span>101</span>
 <span>102</span>
 <span>103</span>
+<span>104</span>
 </pre><pre class="rust"><code><span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="ident">poise::FrameworkOptions</span> {
         <span class="ident">prefix_options</span>: <span class="ident">poise::PrefixFrameworkOptions</span> {
@@ -700,6 +705,7 @@ client builder</p>
         .<span class="ident">command</span>(<span class="ident">commands::add</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::choice</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::boop</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
+        .<span class="ident">command</span>(<span class="ident">commands::delete</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::user_info</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::echo</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">autocomplete::greet</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
@@ -906,7 +912,7 @@ client builder</p>
     */</span>
 }</code></pre></div>
 </div></div></div></div></details></div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.command" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/framework/builder.rs.html#97-105" title="goto source code">[src]</a></div><a href="#method.command" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.command" class="fnname">command</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;definition: <a class="struct" href="struct.CommandDefinition.html" title="struct poise::CommandDefinition">CommandDefinition</a>&lt;U, E&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;meta_builder: impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;mut <a class="struct" href="struct.CommandBuilder.html" title="struct poise::CommandBuilder">CommandBuilder</a>&lt;U, E&gt;) -&gt; &amp;mut <a class="struct" href="struct.CommandBuilder.html" title="struct poise::CommandBuilder">CommandBuilder</a>&lt;U, E&gt; + 'static<br>) -&gt; Self</h4></div></summary><div class="docblock"><p>Add a new command to the framework</p>
-</div><div class="docblock scraped-example-list"><span></span><h5 id="scraped-examples-3" class="section-header"><a href="#scraped-examples-3">Examples found in repository</a></h5><div class="scraped-example " data-locs="[[[35,35],&quot;../src/framework_usage/main.rs.html#90&quot;,&quot;line 90&quot;],[[36,36],&quot;../src/framework_usage/main.rs.html#91&quot;,&quot;line 91&quot;],[[37,37],&quot;../src/framework_usage/main.rs.html#92&quot;,&quot;line 92&quot;],[[38,38],&quot;../src/framework_usage/main.rs.html#93&quot;,&quot;line 93&quot;],[[39,39],&quot;../src/framework_usage/main.rs.html#94&quot;,&quot;line 94&quot;],[[40,40],&quot;../src/framework_usage/main.rs.html#95&quot;,&quot;line 95&quot;],[[41,41],&quot;../src/framework_usage/main.rs.html#96&quot;,&quot;line 96&quot;],[[42,42],&quot;../src/framework_usage/main.rs.html#97&quot;,&quot;line 97&quot;],[[43,43],&quot;../src/framework_usage/main.rs.html#98&quot;,&quot;line 98&quot;],[[44,44],&quot;../src/framework_usage/main.rs.html#99&quot;,&quot;line 99&quot;]]"><div class="scraped-example-title">examples/framework_usage/main.rs (<a href="../src/framework_usage/main.rs.html#90">line 90</a>)</div><div class="code-wrapper"><span class="prev">&pr;</span> <span class="next">&sc;</span><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>55</span>
+</div><div class="docblock scraped-example-list"><span></span><h5 id="scraped-examples-3" class="section-header"><a href="#scraped-examples-3">Examples found in repository</a></h5><div class="scraped-example " data-locs="[[[35,35],&quot;../src/framework_usage/main.rs.html#90&quot;,&quot;line 90&quot;],[[36,36],&quot;../src/framework_usage/main.rs.html#91&quot;,&quot;line 91&quot;],[[37,37],&quot;../src/framework_usage/main.rs.html#92&quot;,&quot;line 92&quot;],[[38,38],&quot;../src/framework_usage/main.rs.html#93&quot;,&quot;line 93&quot;],[[39,39],&quot;../src/framework_usage/main.rs.html#94&quot;,&quot;line 94&quot;],[[40,40],&quot;../src/framework_usage/main.rs.html#95&quot;,&quot;line 95&quot;],[[41,41],&quot;../src/framework_usage/main.rs.html#96&quot;,&quot;line 96&quot;],[[42,42],&quot;../src/framework_usage/main.rs.html#97&quot;,&quot;line 97&quot;],[[43,43],&quot;../src/framework_usage/main.rs.html#98&quot;,&quot;line 98&quot;],[[44,44],&quot;../src/framework_usage/main.rs.html#99&quot;,&quot;line 99&quot;],[[45,45],&quot;../src/framework_usage/main.rs.html#100&quot;,&quot;line 100&quot;]]"><div class="scraped-example-title">examples/framework_usage/main.rs (<a href="../src/framework_usage/main.rs.html#90">line 90</a>)</div><div class="code-wrapper"><span class="prev">&pr;</span> <span class="next">&sc;</span><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>55</span>
 <span>56</span>
 <span>57</span>
 <span>58</span>
@@ -955,6 +961,7 @@ client builder</p>
 <span>101</span>
 <span>102</span>
 <span>103</span>
+<span>104</span>
 </pre><pre class="rust"><code><span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="ident">poise::FrameworkOptions</span> {
         <span class="ident">prefix_options</span>: <span class="ident">poise::PrefixFrameworkOptions</span> {
@@ -997,6 +1004,7 @@ client builder</p>
         .<span class="highlight"><span class="ident">command</span>(<span class="ident">commands::add</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)</span>
         .<span class="highlight"><span class="ident">command</span>(<span class="ident">commands::choice</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)</span>
         .<span class="highlight"><span class="ident">command</span>(<span class="ident">commands::boop</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)</span>
+        .<span class="highlight"><span class="ident">command</span>(<span class="ident">commands::delete</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)</span>
         .<span class="highlight"><span class="ident">command</span>(<span class="ident">context_menu::user_info</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)</span>
         .<span class="highlight"><span class="ident">command</span>(<span class="ident">context_menu::echo</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)</span>
         .<span class="highlight"><span class="ident">command</span>(<span class="ident">autocomplete::greet</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)</span>
@@ -1215,7 +1223,7 @@ times with the builder left to defaults, i.e. no command category or subcommands
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.run" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/framework/builder.rs.html#186-192" title="goto source code">[src]</a></div><a href="#method.run" class="anchor"></a><h4 class="code-header">pub async fn <a href="#method.run" class="fnname">run</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>, <a class="enum" href="https://docs.rs/serenity/*/serenity/error/enum.Error.html" title="enum serenity::error::Error">Error</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;U: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static,<br>&nbsp;&nbsp;&nbsp;&nbsp;E: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'static,&nbsp;</span></h4></div></summary><div class="docblock"><p>Start the framework with the specified configuration.</p>
 <p><a href="struct.FrameworkBuilder.html#method.run" title="FrameworkBuilder::run"><code>FrameworkBuilder::run</code></a> is just a shorthand that calls <a href="struct.FrameworkBuilder.html#method.build" title="FrameworkBuilder::build"><code>FrameworkBuilder::build</code></a> and
 starts the returned framework</p>
-</div><div class="docblock scraped-example-list"><span></span><h5 id="scraped-examples-4" class="section-header"><a href="#scraped-examples-4">Examples found in repository</a></h5><div class="scraped-example " data-locs="[[[45,45],&quot;../src/framework_usage/main.rs.html#100&quot;,&quot;line 100&quot;]]"><div class="scraped-example-title">examples/framework_usage/main.rs (<a href="../src/framework_usage/main.rs.html#100">line 100</a>)</div><div class="code-wrapper"><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>55</span>
+</div><div class="docblock scraped-example-list"><span></span><h5 id="scraped-examples-4" class="section-header"><a href="#scraped-examples-4">Examples found in repository</a></h5><div class="scraped-example " data-locs="[[[46,46],&quot;../src/framework_usage/main.rs.html#101&quot;,&quot;line 101&quot;]]"><div class="scraped-example-title">examples/framework_usage/main.rs (<a href="../src/framework_usage/main.rs.html#101">line 101</a>)</div><div class="code-wrapper"><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>55</span>
 <span>56</span>
 <span>57</span>
 <span>58</span>
@@ -1264,6 +1272,7 @@ starts the returned framework</p>
 <span>101</span>
 <span>102</span>
 <span>103</span>
+<span>104</span>
 </pre><pre class="rust"><code><span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="ident">poise::FrameworkOptions</span> {
         <span class="ident">prefix_options</span>: <span class="ident">poise::PrefixFrameworkOptions</span> {
@@ -1306,6 +1315,7 @@ starts the returned framework</p>
         .<span class="ident">command</span>(<span class="ident">commands::add</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::choice</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::boop</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
+        .<span class="ident">command</span>(<span class="ident">commands::delete</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::user_info</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::echo</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">autocomplete::greet</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
@@ -1530,5 +1540,5 @@ starts the returned framework</p>
 <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_subscriber">Read more</a></p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.with_current_subscriber" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tracing/0.1.29/src/tracing/instrument.rs.html#221" title="goto source code">[src]</a></div><a href="#method.with_current_subscriber" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber" class="fnname">with_current_subscriber</a>(self) -&gt; <a class="struct" href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="struct tracing::instrument::WithDispatch">WithDispatch</a>&lt;Self&gt;</h4></div></summary><div class='docblock'><p>Attaches the current <a href="https://docs.rs/tracing/0.1.29/tracing/dispatcher/index.html#setting-the-default-subscriber">default</a> <a href="https://docs.rs/tracing-core/0.1.21/tracing_core/subscriber/trait.Subscriber.html"><code>Subscriber</code></a> to this type, returning a
 <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber">Read more</a></p>
-</div></details></div></details></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
+</div></details></div></details></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (48a5999fc 2021-12-01)" ></div>
 </body></html>

@@ -54,6 +54,7 @@ will take care of that by calling <a href="struct.EditTracker.html#method.purge"
 <span>101</span>
 <span>102</span>
 <span>103</span>
+<span>104</span>
 </pre><pre class="rust"><code><span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="ident">poise::FrameworkOptions</span> {
         <span class="ident">prefix_options</span>: <span class="ident">poise::PrefixFrameworkOptions</span> {
@@ -96,6 +97,7 @@ will take care of that by calling <a href="struct.EditTracker.html#method.purge"
         .<span class="ident">command</span>(<span class="ident">commands::add</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::choice</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">commands::boop</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
+        .<span class="ident">command</span>(<span class="ident">commands::delete</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::user_info</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">context_menu::echo</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
         .<span class="ident">command</span>(<span class="ident">autocomplete::greet</span>(), <span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>)
@@ -324,5 +326,5 @@ not in cache. Also returns a bool with <code>true</code> if this message was pre
 <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_subscriber">Read more</a></p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.with_current_subscriber" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tracing/0.1.29/src/tracing/instrument.rs.html#221" title="goto source code">[src]</a></div><a href="#method.with_current_subscriber" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber" class="fnname">with_current_subscriber</a>(self) -&gt; <a class="struct" href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="struct tracing::instrument::WithDispatch">WithDispatch</a>&lt;Self&gt;</h4></div></summary><div class='docblock'><p>Attaches the current <a href="https://docs.rs/tracing/0.1.29/tracing/dispatcher/index.html#setting-the-default-subscriber">default</a> <a href="https://docs.rs/tracing-core/0.1.21/tracing_core/subscriber/trait.Subscriber.html"><code>Subscriber</code></a> to this type, returning a
 <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber">Read more</a></p>
-</div></details></div></details></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
+</div></details></div></details></div></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (48a5999fc 2021-12-01)" ></div>
 </body></html>

@@ -415,13 +415,6 @@
 <span id="414">414</span>
 <span id="415">415</span>
 <span id="416">416</span>
-<span id="417">417</span>
-<span id="418">418</span>
-<span id="419">419</span>
-<span id="420">420</span>
-<span id="421">421</span>
-<span id="422">422</span>
-<span id="423">423</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Holds application command definition structs.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>, <span class="ident">BoxFuture</span>, <span class="ident">Framework</span>};
@@ -566,11 +559,6 @@
     <span class="kw">pub</span> <span class="ident">check</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">fn</span>(<span class="ident">ApplicationContext</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>) -&gt; <span class="ident">BoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Whether responses to this command should be ephemeral by default.</span>
     <span class="kw">pub</span> <span class="ident">ephemeral</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// Permissions which a user needs to have so that the application command runs.</span>
-    <span class="kw">pub</span> <span class="ident">required_permissions</span>: <span class="ident">serenity::Permissions</span>,
-    <span class="doccomment">/// If true, only users from the [owners list](crate::FrameworkOptions::owners) may use this</span>
-    <span class="doccomment">/// command.</span>
-    <span class="kw">pub</span> <span class="ident">owners_only</span>: <span class="ident">bool</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">ApplicationCommandOptions</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
@@ -579,8 +567,6 @@
             <span class="ident">on_error</span>: <span class="prelude-val">None</span>,
             <span class="ident">check</span>: <span class="prelude-val">None</span>,
             <span class="ident">ephemeral</span>: <span class="bool-val">false</span>,
-            <span class="ident">required_permissions</span>: <span class="ident">serenity::Permissions::empty</span>(),
-            <span class="ident">owners_only</span>: <span class="bool-val">false</span>,
         }
     }
 }
@@ -846,5 +832,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (48a5999fc 2021-12-01)" ></div>
 </body></html>

@@ -292,6 +292,27 @@
 <span id="291">291</span>
 <span id="292">292</span>
 <span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 
 <span class="kw">fn</span> <span class="ident">find_matching_application_command</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>(
@@ -431,8 +452,8 @@
     <span class="comment">// Make sure that user has required permissions</span>
     <span class="kw">if</span> <span class="op">!</span><span class="ident"><span class="kw">super</span>::check_required_permissions_and_owners_only</span>(
         <span class="ident"><span class="kw">crate</span>::Context::Application</span>(<span class="ident">ctx</span>),
-        <span class="ident">command</span>.<span class="ident">options</span>().<span class="ident">required_permissions</span>,
-        <span class="ident">command</span>.<span class="ident">options</span>().<span class="ident">owners_only</span>,
+        <span class="ident">command</span>.<span class="ident">id</span>().<span class="ident">required_permissions</span>,
+        <span class="ident">command</span>.<span class="ident">id</span>().<span class="ident">owners_only</span>,
     )
     .<span class="kw">await</span>
     {
@@ -489,6 +510,27 @@
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>);
     }
     <span class="ident">cooldowns</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">start_cooldown</span>(<span class="ident">ctx</span>.<span class="ident">into</span>());
+
+    <span class="kw">let</span> <span class="ident">missing_bot_permissions</span> <span class="op">=</span>
+        <span class="ident"><span class="kw">super</span>::check_missing_bot_permissions</span>(<span class="ident">ctx</span>.<span class="ident">into</span>(), <span class="ident">command</span>.<span class="ident">id</span>().<span class="ident">required_bot_permissions</span>)
+            .<span class="kw">await</span>;
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">missing_bot_permissions</span>.<span class="ident">is_empty</span>() {
+        (<span class="ident">ctx</span>.<span class="ident">framework</span>.<span class="ident">options</span>().<span class="ident">missing_bot_permissions_handler</span>)(
+            <span class="ident">ctx</span>.<span class="ident">into</span>(),
+            <span class="ident">missing_bot_permissions</span>,
+        )
+        .<span class="kw">await</span>
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+            <span class="prelude-val">Some</span>((
+                <span class="ident">e</span>,
+                <span class="ident"><span class="kw">crate</span>::ApplicationCommandErrorContext</span> {
+                    <span class="ident">ctx</span>,
+                    <span class="ident">location</span>: <span class="ident"><span class="kw">crate</span>::CommandErrorLocation::MissingBotPermissionsCallback</span>,
+                },
+            ))
+        })<span class="question-mark">?</span>;
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>);
+    }
 
     <span class="prelude-val">Ok</span>((<span class="ident">ctx</span>, <span class="ident">leaf_interaction_options</span>))
 }
@@ -586,5 +628,5 @@
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (207c80f10 2021-11-30)" ></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (48a5999fc 2021-12-01)" ></div>
 </body></html>
