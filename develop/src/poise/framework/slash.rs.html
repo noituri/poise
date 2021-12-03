@@ -313,6 +313,7 @@
 <span id="312">312</span>
 <span id="313">313</span>
 <span id="314">314</span>
+<span id="315">315</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 
 <span class="kw">fn</span> <span class="ident">find_matching_application_command</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>(
@@ -465,6 +466,28 @@
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>);
     }
 
+    <span class="comment">// Make sure the bot has the permissions it needs</span>
+    <span class="kw">let</span> <span class="ident">missing_bot_permissions</span> <span class="op">=</span>
+        <span class="ident"><span class="kw">super</span>::check_missing_bot_permissions</span>(<span class="ident">ctx</span>.<span class="ident">into</span>(), <span class="ident">command</span>.<span class="ident">id</span>().<span class="ident">required_bot_permissions</span>)
+            .<span class="kw">await</span>;
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">missing_bot_permissions</span>.<span class="ident">is_empty</span>() {
+        (<span class="ident">ctx</span>.<span class="ident">framework</span>.<span class="ident">options</span>().<span class="ident">missing_bot_permissions_handler</span>)(
+            <span class="ident">ctx</span>.<span class="ident">into</span>(),
+            <span class="ident">missing_bot_permissions</span>,
+        )
+        .<span class="kw">await</span>
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+            <span class="prelude-val">Some</span>((
+                <span class="ident">e</span>,
+                <span class="ident"><span class="kw">crate</span>::ApplicationCommandErrorContext</span> {
+                    <span class="ident">ctx</span>,
+                    <span class="ident">location</span>: <span class="ident"><span class="kw">crate</span>::CommandErrorLocation::MissingBotPermissionsCallback</span>,
+                },
+            ))
+        })<span class="question-mark">?</span>;
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>);
+    }
+
     <span class="comment">// Only continue if command checks returns true</span>
     <span class="kw">let</span> <span class="ident">checks_passing</span> <span class="op">=</span> (<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> {
         <span class="kw">let</span> <span class="ident">global_check_passes</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">framework</span>.<span class="ident">options</span>.<span class="ident">command_check</span> {
@@ -510,27 +533,6 @@
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>);
     }
     <span class="ident">cooldowns</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">start_cooldown</span>(<span class="ident">ctx</span>.<span class="ident">into</span>());
-
-    <span class="kw">let</span> <span class="ident">missing_bot_permissions</span> <span class="op">=</span>
-        <span class="ident"><span class="kw">super</span>::check_missing_bot_permissions</span>(<span class="ident">ctx</span>.<span class="ident">into</span>(), <span class="ident">command</span>.<span class="ident">id</span>().<span class="ident">required_bot_permissions</span>)
-            .<span class="kw">await</span>;
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">missing_bot_permissions</span>.<span class="ident">is_empty</span>() {
-        (<span class="ident">ctx</span>.<span class="ident">framework</span>.<span class="ident">options</span>().<span class="ident">missing_bot_permissions_handler</span>)(
-            <span class="ident">ctx</span>.<span class="ident">into</span>(),
-            <span class="ident">missing_bot_permissions</span>,
-        )
-        .<span class="kw">await</span>
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-            <span class="prelude-val">Some</span>((
-                <span class="ident">e</span>,
-                <span class="ident"><span class="kw">crate</span>::ApplicationCommandErrorContext</span> {
-                    <span class="ident">ctx</span>,
-                    <span class="ident">location</span>: <span class="ident"><span class="kw">crate</span>::CommandErrorLocation::MissingBotPermissionsCallback</span>,
-                },
-            ))
-        })<span class="question-mark">?</span>;
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>);
-    }
 
     <span class="prelude-val">Ok</span>((<span class="ident">ctx</span>, <span class="ident">leaf_interaction_options</span>))
 }
@@ -628,5 +630,5 @@
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (48a5999fc 2021-12-01)" ></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (acbe4443c 2021-12-02)" ></div>
 </body></html>

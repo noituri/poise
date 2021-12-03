@@ -305,6 +305,13 @@
 <span id="304">304</span>
 <span id="305">305</span>
 <span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 
 <span class="comment">// Returns message with (only) bot prefix removed, if it matches</span>
@@ -431,7 +438,7 @@
             <span class="kw">continue</span>;
         }
 
-        <span class="kw">let</span> <span class="ident">prefix_ctx</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::PrefixContext</span> {
+        <span class="kw">let</span> <span class="ident">ctx</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::PrefixContext</span> {
             <span class="ident">discord</span>: <span class="ident">ctx</span>,
             <span class="ident">msg</span>,
             <span class="ident">framework</span>: <span class="ident">this</span>,
@@ -441,7 +448,7 @@
 
         <span class="comment">// Make sure that user has required permissions</span>
         <span class="kw">if</span> <span class="op">!</span><span class="ident"><span class="kw">super</span>::check_required_permissions_and_owners_only</span>(
-            <span class="ident"><span class="kw">crate</span>::Context::Prefix</span>(<span class="ident">prefix_ctx</span>),
+            <span class="ident"><span class="kw">crate</span>::Context::Prefix</span>(<span class="ident">ctx</span>),
             <span class="ident">command</span>.<span class="ident">id</span>.<span class="ident">required_permissions</span>,
             <span class="ident">command</span>.<span class="ident">id</span>.<span class="ident">owners_only</span>,
         )
@@ -450,15 +457,38 @@
             <span class="kw">continue</span>;
         }
 
+        <span class="comment">// Before running any checks, make sure the bot has the permissions it needs</span>
+        <span class="kw">let</span> <span class="ident">missing_bot_permissions</span> <span class="op">=</span>
+            <span class="ident"><span class="kw">super</span>::check_missing_bot_permissions</span>(<span class="ident">ctx</span>.<span class="ident">into</span>(), <span class="ident">command</span>.<span class="ident">id</span>.<span class="ident">required_bot_permissions</span>)
+                .<span class="kw">await</span>;
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">missing_bot_permissions</span>.<span class="ident">is_empty</span>() {
+            (<span class="ident">ctx</span>.<span class="ident">framework</span>.<span class="ident">options</span>().<span class="ident">missing_bot_permissions_handler</span>)(
+                <span class="ident">ctx</span>.<span class="ident">into</span>(),
+                <span class="ident">missing_bot_permissions</span>,
+            )
+            .<span class="kw">await</span>
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
+                (
+                    <span class="ident">e</span>,
+                    <span class="ident"><span class="kw">crate</span>::PrefixCommandErrorContext</span> {
+                        <span class="ident">ctx</span>,
+                        <span class="ident">command</span>,
+                        <span class="ident">location</span>: <span class="ident"><span class="kw">crate</span>::CommandErrorLocation::MissingBotPermissionsCallback</span>,
+                    },
+                )
+            })<span class="question-mark">?</span>;
+            <span class="kw">continue</span>;
+        }
+
         <span class="comment">// Only continue if command checks returns true</span>
         <span class="kw">let</span> <span class="ident">checks_passing</span> <span class="op">=</span> (<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> {
             <span class="kw">let</span> <span class="ident">global_check_passes</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">this</span>.<span class="ident">options</span>.<span class="ident">command_check</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">check</span>) =&gt; <span class="ident">check</span>(<span class="ident"><span class="kw">crate</span>::Context::Prefix</span>(<span class="ident">prefix_ctx</span>)).<span class="kw">await</span><span class="question-mark">?</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">check</span>) =&gt; <span class="ident">check</span>(<span class="ident"><span class="kw">crate</span>::Context::Prefix</span>(<span class="ident">ctx</span>)).<span class="kw">await</span><span class="question-mark">?</span>,
                 <span class="prelude-val">None</span> =&gt; <span class="bool-val">true</span>,
             };
 
             <span class="kw">let</span> <span class="ident">command_specific_check_passes</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">command</span>.<span class="ident">options</span>.<span class="ident">check</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">check</span>) =&gt; <span class="ident">check</span>(<span class="ident">prefix_ctx</span>).<span class="kw">await</span><span class="question-mark">?</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">check</span>) =&gt; <span class="ident">check</span>(<span class="ident">ctx</span>).<span class="kw">await</span><span class="question-mark">?</span>,
                 <span class="prelude-val">None</span> =&gt; <span class="bool-val">true</span>,
             };
 
@@ -470,7 +500,7 @@
                 <span class="ident">e</span>,
                 <span class="ident"><span class="kw">crate</span>::PrefixCommandErrorContext</span> {
                     <span class="ident">command</span>,
-                    <span class="ident">ctx</span>: <span class="ident">prefix_ctx</span>,
+                    <span class="ident">ctx</span>,
                     <span class="ident">location</span>: <span class="ident"><span class="kw">crate</span>::CommandErrorLocation::Check</span>,
                 },
             )
@@ -480,12 +510,17 @@
         }
 
         <span class="ident">first_matching_command</span> <span class="op">=</span> <span class="prelude-val">Some</span>(
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">subcommand_meta</span>, <span class="ident">remaining_message</span>)) <span class="op">=</span>
-                <span class="ident">find_command</span>(<span class="ident">this</span>, <span class="ident">ctx</span>, <span class="ident">msg</span>, <span class="kw-2">&amp;</span><span class="ident">command_meta</span>.<span class="ident">subcommands</span>, <span class="ident">remaining_message</span>).<span class="kw">await</span><span class="question-mark">?</span>
+            <span class="kw">match</span> <span class="ident">find_command</span>(
+                <span class="ident">this</span>,
+                <span class="ident">ctx</span>.<span class="ident">discord</span>,
+                <span class="ident">msg</span>,
+                <span class="kw-2">&amp;</span><span class="ident">command_meta</span>.<span class="ident">subcommands</span>,
+                <span class="ident">remaining_message</span>,
+            )
+            .<span class="kw">await</span><span class="question-mark">?</span>
             {
-                (<span class="ident">subcommand_meta</span>, <span class="ident">remaining_message</span>)
-            } <span class="kw">else</span> {
-                (<span class="ident">command_meta</span>, <span class="ident">remaining_message</span>)
+                <span class="prelude-val">Some</span>((<span class="ident">subcommand_meta</span>, <span class="ident">remaining_message</span>)) =&gt; (<span class="ident">subcommand_meta</span>, <span class="ident">remaining_message</span>),
+                <span class="prelude-val">None</span> =&gt; (<span class="ident">command_meta</span>, <span class="ident">remaining_message</span>),
             },
         );
         <span class="kw">break</span>;
@@ -565,27 +600,6 @@
     }
     <span class="ident">cooldowns</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">start_cooldown</span>(<span class="ident">ctx</span>.<span class="ident">into</span>());
 
-    <span class="kw">let</span> <span class="ident">missing_bot_permissions</span> <span class="op">=</span>
-        <span class="ident"><span class="kw">super</span>::check_missing_bot_permissions</span>(<span class="ident">ctx</span>.<span class="ident">into</span>(), <span class="ident">command</span>.<span class="ident">id</span>.<span class="ident">required_bot_permissions</span>).<span class="kw">await</span>;
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">missing_bot_permissions</span>.<span class="ident">is_empty</span>() {
-        (<span class="ident">ctx</span>.<span class="ident">framework</span>.<span class="ident">options</span>().<span class="ident">missing_bot_permissions_handler</span>)(
-            <span class="ident">ctx</span>.<span class="ident">into</span>(),
-            <span class="ident">missing_bot_permissions</span>,
-        )
-        .<span class="kw">await</span>
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-            <span class="prelude-val">Some</span>((
-                <span class="ident">e</span>,
-                <span class="ident"><span class="kw">crate</span>::PrefixCommandErrorContext</span> {
-                    <span class="ident">ctx</span>,
-                    <span class="ident">command</span>,
-                    <span class="ident">location</span>: <span class="ident"><span class="kw">crate</span>::CommandErrorLocation::MissingBotPermissionsCallback</span>,
-                },
-            ))
-        })<span class="question-mark">?</span>;
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>);
-    }
-
     <span class="comment">// Typing is broadcasted as long as this object is alive</span>
     <span class="kw">let</span> <span class="ident">_typing_broadcaster</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">command</span>.<span class="ident">options</span>.<span class="ident">broadcast_typing</span> {
         <span class="ident">msg</span>.<span class="ident">channel_id</span>.<span class="ident">start_typing</span>(<span class="kw-2">&amp;</span><span class="ident">ctx</span>.<span class="ident">discord</span>.<span class="ident">http</span>).<span class="ident">ok</span>()
@@ -612,5 +626,5 @@
     <span class="ident">res</span>
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (48a5999fc 2021-12-01)" ></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (acbe4443c 2021-12-02)" ></div>
 </body></html>
