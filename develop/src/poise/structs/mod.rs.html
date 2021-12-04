@@ -212,6 +212,9 @@
 <span id="211">211</span>
 <span id="212">212</span>
 <span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Plain data structs that define the framework configuration.</span>
 
 <span class="kw">mod</span> <span class="ident">context</span>;
@@ -354,6 +357,7 @@
 
 <span class="doccomment">/// Type returned from `#[poise::command]` annotated functions, which contains all of the generated</span>
 <span class="doccomment">/// prefix and application commands</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandDefinition</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Generated prefix command, if it was enabled</span>
     <span class="kw">pub</span> <span class="ident">prefix</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::PrefixCommand</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
@@ -364,6 +368,7 @@
 }
 
 <span class="doccomment">/// A view into a command definition with its different implementations</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandDefinitionRef</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Prefix implementation of the command</span>
     <span class="kw">pub</span> <span class="ident">prefix</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident"><span class="kw">crate</span>::PrefixCommandMeta</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
@@ -380,6 +385,7 @@
 <span class="doccomment">/// For example with a `#[command(prefix_command, slash_command)]`, the generated</span>
 <span class="doccomment">/// [`crate::PrefixCommand`] and [`crate::SlashCommand`] will both contain an `Arc&lt;CommandId&gt;`</span>
 <span class="doccomment">/// pointing to the same [`CommandId`] instance.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandId</span> {
     <span class="doccomment">/// A string to identify this particular command within a list of commands.</span>
     <span class="doccomment">///</span>
@@ -412,7 +418,7 @@
 
 <span class="doccomment">/// Used for command errors to store the specific operation in a command&#39;s execution where an</span>
 <span class="doccomment">/// error occured</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CommandErrorLocation</span> {
     <span class="doccomment">/// Error occured in the main command code</span>
     <span class="ident">Body</span>,

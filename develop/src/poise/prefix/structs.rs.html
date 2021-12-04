@@ -215,6 +215,10 @@
 <span id="214">214</span>
 <span id="215">215</span>
 <span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Holds prefix-command definition structs.</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>, <span class="ident">BoxFuture</span>, <span class="ident">Framework</span>};
@@ -254,6 +258,7 @@
 }
 
 <span class="doccomment">/// Optional settings for a [`PrefixCommand`].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PrefixCommandOptions</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Multiline description with detailed usage instructions. Displayed in the command specific</span>
     <span class="doccomment">/// help: `~help command_name`</span>
@@ -288,6 +293,7 @@
 
 <span class="doccomment">/// Definition of a single command, excluding metadata which doesn&#39;t affect the command itself such</span>
 <span class="doccomment">/// as category.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PrefixCommand</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Main name of the command. Aliases can be set in [`PrefixCommandOptions::aliases`].</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
@@ -300,6 +306,7 @@
 }
 
 <span class="doccomment">/// Includes a command, plus metadata like associated sub-commands or category.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PrefixCommandMeta</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Core command data</span>
     <span class="kw">pub</span> <span class="ident">command</span>: <span class="ident">PrefixCommand</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
@@ -328,6 +335,7 @@
 }
 
 <span class="doccomment">/// Possible ways to define a command prefix</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Prefix</span> {
     <span class="doccomment">/// A case-sensitive string literal prefix (passed to [`str::strip_prefix`])</span>
     <span class="ident">Literal</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>),

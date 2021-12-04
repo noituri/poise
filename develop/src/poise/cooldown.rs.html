@@ -100,13 +100,14 @@
 <span id="99"> 99</span>
 <span id="100">100</span>
 <span id="101">101</span>
+<span id="102">102</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 <span class="comment">// I usually don&#39;t really do imports, but these are very convenient</span>
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::util::OrderedMap</span>;
 <span class="kw">use</span> <span class="ident">std::time</span>::{<span class="ident">Duration</span>, <span class="ident">Instant</span>};
 
 <span class="doccomment">/// Configuration struct for [`Cooldowns`]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CooldownConfig</span> {
     <span class="doccomment">/// This cooldown operates on a global basis</span>
     <span class="kw">pub</span> <span class="ident">global</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Duration</span><span class="op">&gt;</span>,
@@ -124,6 +125,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// You probably don&#39;t need to use this directly. `#[poise::command]` automatically generates a</span>
 <span class="doccomment">/// cooldown handler.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Cooldowns</span> {
     <span class="ident">cooldown</span>: <span class="ident">CooldownConfig</span>,
 
