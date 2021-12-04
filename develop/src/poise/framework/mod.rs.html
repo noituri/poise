@@ -206,10 +206,6 @@
 <span id="205">205</span>
 <span id="206">206</span>
 <span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
 </pre><pre class="rust"><code><span class="doccomment">//! The central Framework struct that ties everything together.</span>
 
 <span class="kw">mod</span> <span class="ident">dispatch</span>;
@@ -224,7 +220,6 @@
 <span class="doccomment">/// The main framework struct which stores all data and handles message and interaction dispatch.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Framework</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span> {
     <span class="ident">user_data</span>: <span class="ident">once_cell::sync::OnceCell</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span>,
-    <span class="ident">bot_id</span>: <span class="ident">serenity::UserId</span>,
     <span class="comment">// TODO: wrap in RwLock to allow changing framework options while running? Could also replace</span>
     <span class="comment">// the edit tracking cache interior mutability</span>
     <span class="ident">options</span>: <span class="ident"><span class="kw">crate</span>::FrameworkOptions</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
@@ -288,9 +283,6 @@
         <span class="kw">let</span> <span class="ident">self_1</span> <span class="op">=</span> <span class="ident">std::sync::Arc::new</span>(<span class="self">Self</span> {
             <span class="ident">user_data</span>: <span class="ident">once_cell::sync::OnceCell::new</span>(),
             <span class="ident">user_data_setup</span>: <span class="ident">std::sync::Mutex::new</span>(<span class="prelude-val">Some</span>(<span class="ident">Box::new</span>(<span class="ident">user_data_setup</span>))),
-            <span class="ident">bot_id</span>: <span class="ident">serenity::parse_token</span>(<span class="ident">client_builder</span>.<span class="ident">get_token</span>().<span class="ident">trim_start_matches</span>(<span class="string">&quot;Bot &quot;</span>))
-                .<span class="ident">expect</span>(<span class="string">&quot;Invalid bot token&quot;</span>)
-                .<span class="ident">bot_user_id</span>,
             <span class="comment">// To break up the circular dependency (framework setup -&gt; client setup -&gt; event handler</span>
             <span class="comment">// -&gt; framework), we initialize this with None and then immediately fill in once the</span>
             <span class="comment">// client is created</span>
