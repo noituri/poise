@@ -396,7 +396,7 @@
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">send_prefix_reply</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>(
     <span class="ident">ctx</span>: <span class="ident"><span class="kw">crate</span>::prefix::PrefixContext</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
     <span class="ident">builder</span>: <span class="kw">impl</span> <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="ident"><span class="kw">crate</span>::CreateReply</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="ident"><span class="kw">crate</span>::CreateReply</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
-) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">serenity::Message</span>, <span class="ident">serenity::Error</span><span class="op">&gt;</span> {
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">serenity::Message</span><span class="op">&gt;</span>, <span class="ident">serenity::Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reply</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::CreateReply::default</span>();
     <span class="ident">builder</span>(<span class="kw-2">&amp;mut</span> <span class="ident">reply</span>);
     <span class="kw">let</span> <span class="ident"><span class="kw">crate</span>::CreateReply</span> {
@@ -433,7 +433,7 @@
         .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="ident">t</span>.<span class="ident">find_bot_response</span>(<span class="ident">ctx</span>.<span class="ident">msg</span>.<span class="ident">id</span>))
         .<span class="ident">cloned</span>();
 
-    <span class="prelude-val">Ok</span>(<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">response</span>) <span class="op">=</span> <span class="ident">existing_response</span> {
+    <span class="prelude-val">Ok</span>(<span class="ident">Box::new</span>(<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">response</span>) <span class="op">=</span> <span class="ident">existing_response</span> {
         <span class="ident">response</span>
             .<span class="ident">edit</span>(<span class="ident">ctx</span>.<span class="ident">discord</span>, <span class="op">|</span><span class="ident">f</span><span class="op">|</span> {
                 <span class="comment">// Empty string resets content (happens when user replaces text with embed)</span>
@@ -505,7 +505,7 @@
         }
 
         <span class="ident">new_response</span>
-    })
+    }))
 }
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (532d2b14c 2021-12-03)" ></div>

@@ -233,7 +233,7 @@
 <span class="doccomment">/// requires a network request.</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ReplyHandle</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// When sending a normal message, Discord returns the message object directly</span>
-    <span class="ident">Prefix</span>(<span class="ident">serenity::Message</span>),
+    <span class="ident">Prefix</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">serenity::Message</span><span class="op">&gt;</span>),
     <span class="doccomment">/// When sending an application command response, you need to request the message object</span>
     <span class="doccomment">/// seperately</span>
     <span class="ident">Application</span> {
@@ -252,7 +252,7 @@
     <span class="doccomment">/// Only needs to do an HTTP request in the application command response case</span>
     <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">message</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">serenity::Message</span>, <span class="ident">serenity::Error</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident"><span class="self">Self</span>::Prefix</span>(<span class="ident">msg</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">msg</span>),
+            <span class="ident"><span class="self">Self</span>::Prefix</span>(<span class="ident">msg</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">*</span><span class="ident">msg</span>),
             <span class="ident"><span class="self">Self</span>::Application</span> { <span class="ident">http</span>, <span class="ident">interaction</span> } =&gt; {
                 <span class="ident">interaction</span>.<span class="ident">get_interaction_response</span>(<span class="ident">http</span>).<span class="kw">await</span>
             }
