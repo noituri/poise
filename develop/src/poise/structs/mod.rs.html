@@ -215,6 +215,10 @@
 <span id="214">214</span>
 <span id="215">215</span>
 <span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Plain data structs that define the framework configuration.</span>
 
 <span class="kw">mod</span> <span class="ident">context</span>;
@@ -399,6 +403,10 @@
     <span class="kw">pub</span> <span class="ident">hide_in_help</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// Short description of the command. Displayed inline in help menus and similar.</span>
     <span class="kw">pub</span> <span class="ident">inline_help</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Multiline description with detailed usage instructions. Displayed in the command specific</span>
+    <span class="doccomment">/// help: `~help command_name`</span>
+    <span class="comment">// TODO: fix the inconsistency that this is String and everywhere else it&#39;s &amp;&#39;static str</span>
+    <span class="kw">pub</span> <span class="ident">multiline_help</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">fn</span>() -&gt; <span class="ident">String</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Handles command cooldowns. Mainly for framework internal use</span>
     <span class="kw">pub</span> <span class="ident">cooldowns</span>: <span class="ident">std::sync::Mutex</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::Cooldowns</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Permissions which users must have to invoke this command.</span>

@@ -197,6 +197,20 @@
 <span id="196">196</span>
 <span id="197">197</span>
 <span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::serenity_prelude</span> <span class="kw">as</span> <span class="ident">serenity</span>;
 
 <span class="doccomment">/// Optional configuration for how the help message from [`help()`] looks</span>
@@ -222,19 +236,33 @@
 
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">help_single_command</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>(
     <span class="ident">ctx</span>: <span class="ident"><span class="kw">crate</span>::Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">U</span>, <span class="ident">E</span><span class="op">&gt;</span>,
-    <span class="ident">command</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+    <span class="ident">command_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
     <span class="ident">config</span>: <span class="ident">HelpConfiguration</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
 ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">serenity::Error</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">reply</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">command</span>) <span class="op">=</span> <span class="ident">ctx</span>
-        .<span class="ident">framework</span>()
-        .<span class="ident">options</span>()
-        .<span class="ident">prefix_options</span>
-        .<span class="ident">commands</span>
-        .<span class="ident">iter</span>()
-        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">cmd_meta</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">cmd_meta</span>.<span class="ident">command</span>)
-        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">cmd</span><span class="op">|</span> <span class="ident">cmd</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">command</span>)
-    {
-        <span class="kw">match</span> <span class="ident">command</span>.<span class="ident">options</span>.<span class="ident">multiline_help</span> {
+    <span class="kw">let</span> <span class="ident">command</span> <span class="op">=</span> <span class="ident">ctx</span>.<span class="ident">framework</span>().<span class="ident">commands</span>().<span class="ident">find</span>(<span class="op">|</span><span class="ident">cmd</span><span class="op">|</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">slash</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">cmd</span>.<span class="ident">slash</span> {
+            <span class="kw">if</span> <span class="ident">slash</span>.<span class="ident">name</span>().<span class="ident">eq_ignore_ascii_case</span>(<span class="ident">command_name</span>) {
+                <span class="kw">return</span> <span class="bool-val">true</span>;
+            }
+        }
+
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">prefix</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">cmd</span>.<span class="ident">prefix</span> {
+            <span class="kw">if</span> <span class="ident">prefix</span>.<span class="ident">command</span>.<span class="ident">name</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="ident">command_name</span>) {
+                <span class="kw">return</span> <span class="bool-val">true</span>;
+            }
+        }
+
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">context_menu</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">cmd</span>.<span class="ident">context_menu</span> {
+            <span class="kw">if</span> <span class="ident">context_menu</span>.<span class="ident">name</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="ident">command_name</span>) {
+                <span class="kw">return</span> <span class="bool-val">true</span>;
+            }
+        }
+
+        <span class="bool-val">false</span>
+    });
+
+    <span class="kw">let</span> <span class="ident">reply</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">command</span>) <span class="op">=</span> <span class="ident">command</span> {
+        <span class="kw">match</span> <span class="ident">command</span>.<span class="ident">id</span>.<span class="ident">multiline_help</span> {
             <span class="prelude-val">Some</span>(<span class="ident">f</span>) =&gt; <span class="ident">f</span>(),
             <span class="prelude-val">None</span> =&gt; <span class="ident">command</span>
                 .<span class="ident">id</span>
@@ -243,7 +271,7 @@
                 .<span class="ident">to_owned</span>(),
         }
     } <span class="kw">else</span> {
-        <span class="macro">format!</span>(<span class="string">&quot;No such command `{}`&quot;</span>, <span class="ident">command</span>)
+        <span class="macro">format!</span>(<span class="string">&quot;No such command `{}`&quot;</span>, <span class="ident">command_name</span>)
     };
 
     <span class="ident">ctx</span>.<span class="ident">send</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">content</span>(<span class="ident">reply</span>).<span class="ident">ephemeral</span>(<span class="ident">config</span>.<span class="ident">ephemeral</span>))
