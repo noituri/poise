@@ -444,7 +444,7 @@
                     <span class="prelude-val">None</span> =&gt; <span class="ident">f</span>.<span class="ident">set_embeds</span>(<span class="ident">Vec::new</span>()),
                 };
 
-                <span class="ident">f</span>.<span class="number">0</span>.<span class="ident">insert</span>(<span class="string">&quot;attachments&quot;</span>, <span class="macro">serde_json::json!</span> { [] }); <span class="comment">// reset attachments</span>
+                <span class="ident">f</span>.<span class="number">0</span>.<span class="ident">insert</span>(<span class="string">&quot;attachments&quot;</span>, <span class="macro">serenity::json::json!</span> { [] }); <span class="comment">// reset attachments</span>
                 <span class="kw">for</span> <span class="ident">attachment</span> <span class="kw">in</span> <span class="ident">attachments</span> {
                     <span class="ident">f</span>.<span class="ident">attachment</span>(<span class="ident">attachment</span>);
                 }
