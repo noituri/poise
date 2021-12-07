@@ -657,9 +657,6 @@
 <span id="656">656</span>
 <span id="657">657</span>
 <span id="658">658</span>
-<span id="659">659</span>
-<span id="660">660</span>
-<span id="661">661</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Requires the &#39;framework&#39; feature flag be enabled in your project&#39;s</span>
 <span class="doccomment">//! `Cargo.toml`.</span>
 <span class="doccomment">//!</span>
@@ -769,18 +766,15 @@ struct Owner;
     <span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
     <span class="attribute">#[<span class="ident">description</span> <span class="op">=</span> <span class="string">&quot;Command to display specific information about&quot;</span>]</span> <span class="ident">command</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">extra_text_at_bottom</span> <span class="op">=</span> <span class="string">&quot;\
+    <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">poise::builtins::HelpConfiguration</span> {
+        <span class="ident">extra_text_at_bottom</span>: <span class="string">&quot;\
 Hello! こんにちは！Hola! Bonjour! 您好! 안녕하세요~
 
-If you want more information about a specific command, just pass the command as argument.&quot;</span>;
+If you want more information about a specific command, just pass the command as argument.&quot;</span>,
+        ..<span class="ident">Default::default</span>()
+    };
 
-    <span class="ident">poise::samples::help</span>(
-        <span class="ident">ctx</span>,
-        <span class="ident">command</span>.<span class="ident">as_deref</span>(),
-        <span class="ident">extra_text_at_bottom</span>,
-        <span class="ident">poise::samples::HelpResponseMode::Default</span>,
-    )
-    .<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="ident">poise::builtins::help</span>(<span class="ident">ctx</span>, <span class="ident">command</span>.<span class="ident">as_deref</span>(), <span class="ident">config</span>).<span class="kw">await</span><span class="question-mark">?</span>;
 
     <span class="prelude-val">Ok</span>(())
 }
@@ -790,7 +784,7 @@ If you want more information about a specific command, just pass the command as 
 <span class="doccomment">/// Run with no arguments to register in guild, run with argument &quot;global&quot; to register globally.</span>
 <span class="attribute">#[<span class="ident">poise::command</span>(<span class="ident">prefix_command</span>, <span class="ident">hide_in_help</span>)]</span>
 <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">register</span>(<span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="attribute">#[<span class="ident">flag</span>]</span> <span class="ident">global</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
-    <span class="ident">poise::samples::register_application_commands</span>(<span class="ident">ctx</span>, <span class="ident">global</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="ident">poise::builtins::register_application_commands</span>(<span class="ident">ctx</span>, <span class="ident">global</span>).<span class="kw">await</span><span class="question-mark">?</span>;
 
     <span class="prelude-val">Ok</span>(())
 }
@@ -1322,5 +1316,5 @@ fn _dispatch_error_no_macro&lt;&#39;fut&gt;(
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="serenity_example_port" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (e2116acae 2021-12-05)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="serenity_example_port" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (0fb1c371d 2021-12-06)" ></div>
 </body></html>

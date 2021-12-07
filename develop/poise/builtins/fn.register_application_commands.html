@@ -6,17 +6,7 @@ owners can register globally, only guild owners can register in guild.</p>
 <div class='information'><div class='tooltip ignore'>ⓘ</div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore"><code><span class="ident">Register</span> <span class="ident">application</span> <span class="ident">commands</span> <span class="kw">in</span> <span class="ident">this</span> <span class="ident">guild</span> <span class="ident">or</span> <span class="ident">globally</span>
 
 <span class="ident">Run</span> <span class="ident">with</span> <span class="ident">no</span> <span class="ident">arguments</span> <span class="ident">to</span> <span class="ident">register</span> <span class="kw">in</span> <span class="ident">guild</span>, <span class="ident">run</span> <span class="ident">with</span> <span class="ident">argument</span> <span class="string">&quot;global&quot;</span> <span class="ident">to</span> <span class="ident">register</span> <span class="ident">globally</span>.</code></pre></div>
-</div></details><div class="docblock scraped-example-list"><span></span><h5 id="scraped-examples" class="section-header"><a href="#scraped-examples">Examples found in repository</a></h5><div class="scraped-example expanded" data-locs="[[[1,1],&quot;../../src/serenity_example_port/main.rs.html#131&quot;,&quot;line 131&quot;]]"><div class="scraped-example-title">examples/serenity_example_port/main.rs (<a href="../../src/serenity_example_port/main.rs.html#131">line 131</a>)</div><div class="code-wrapper"><div class="example-wrap"><pre class="line-numbers"><span>130</span>
-<span>131</span>
-<span>132</span>
-<span>133</span>
-<span>134</span>
-</pre><pre class="rust"><code><span class="kw">async</span> <span class="kw">fn</span> <span class="ident">register</span>(<span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="attribute">#[<span class="ident">flag</span>]</span> <span class="ident">global</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
-    <span class="highlight focus"><span class="ident">poise::samples::register_application_commands</span>(<span class="ident">ctx</span>, <span class="ident">global</span>)</span>.<span class="kw">await</span><span class="question-mark">?</span>;
-
-    <span class="prelude-val">Ok</span>(())
-}</code></pre></div>
-</div></div><details class="rustdoc-toggle more-examples-toggle"><summary class="hideme"><span>More examples</span></summary><div class="more-scraped-examples"><div class="toggle-line"><div class="toggle-line-inner"></div></div><div class="more-scraped-examples-inner"><div class="scraped-example expanded" data-locs="[[[1,1],&quot;../../src/framework_usage/main.rs.html#43&quot;,&quot;line 43&quot;]]"><div class="scraped-example-title">examples/framework_usage/main.rs (<a href="../../src/framework_usage/main.rs.html#43">line 43</a>)</div><div class="code-wrapper"><div class="example-wrap"><pre class="line-numbers"><span>42</span>
+</div></details><div class="docblock scraped-example-list"><span></span><h5 id="scraped-examples" class="section-header"><a href="#scraped-examples">Examples found in repository</a></h5><div class="scraped-example expanded" data-locs="[[[1,1],&quot;../../src/framework_usage/main.rs.html#43&quot;,&quot;line 43&quot;]]"><div class="scraped-example-title">examples/framework_usage/main.rs (<a href="../../src/framework_usage/main.rs.html#43">line 43</a>)</div><div class="code-wrapper"><div class="example-wrap"><pre class="line-numbers"><span>42</span>
 <span>43</span>
 <span>44</span>
 <span>45</span>
@@ -26,5 +16,15 @@ owners can register globally, only guild owners can register in guild.</p>
 
     <span class="prelude-val">Ok</span>(())
 }</code></pre></div>
-</div></div></div></div></details></div></section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (e2116acae 2021-12-05)" ></div>
+</div></div><details class="rustdoc-toggle more-examples-toggle"><summary class="hideme"><span>More examples</span></summary><div class="more-scraped-examples"><div class="toggle-line"><div class="toggle-line-inner"></div></div><div class="more-scraped-examples-inner"><div class="scraped-example expanded" data-locs="[[[1,1],&quot;../../src/serenity_example_port/main.rs.html#128&quot;,&quot;line 128&quot;]]"><div class="scraped-example-title">examples/serenity_example_port/main.rs (<a href="../../src/serenity_example_port/main.rs.html#128">line 128</a>)</div><div class="code-wrapper"><div class="example-wrap"><pre class="line-numbers"><span>127</span>
+<span>128</span>
+<span>129</span>
+<span>130</span>
+<span>131</span>
+</pre><pre class="rust"><code><span class="kw">async</span> <span class="kw">fn</span> <span class="ident">register</span>(<span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="attribute">#[<span class="ident">flag</span>]</span> <span class="ident">global</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="highlight focus"><span class="ident">poise::builtins::register_application_commands</span>(<span class="ident">ctx</span>, <span class="ident">global</span>)</span>.<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div>
+</div></div></div></div></details></div></section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (0fb1c371d 2021-12-06)" ></div>
 </body></html>

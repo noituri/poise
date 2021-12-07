@@ -102,7 +102,10 @@
         .<span class="kw">await</span>
         .<span class="ident">unwrap</span>();
 }</code></pre></div>
-</div></div><details class="rustdoc-toggle more-examples-toggle"><summary class="hideme"><span>More examples</span></summary><div class="more-scraped-examples"><div class="toggle-line"><div class="toggle-line-inner"></div></div><div class="more-scraped-examples-inner"><div class="scraped-example " data-locs="[[[30,30],&quot;../src/serenity_example_port/main.rs.html#266&quot;,&quot;line 266&quot;]]"><div class="scraped-example-title">examples/serenity_example_port/main.rs (<a href="../src/serenity_example_port/main.rs.html#266">line 266</a>)</div><div class="code-wrapper"><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>236</span>
+</div></div><details class="rustdoc-toggle more-examples-toggle"><summary class="hideme"><span>More examples</span></summary><div class="more-scraped-examples"><div class="toggle-line"><div class="toggle-line-inner"></div></div><div class="more-scraped-examples-inner"><div class="scraped-example " data-locs="[[[30,30],&quot;../src/serenity_example_port/main.rs.html#263&quot;,&quot;line 263&quot;]]"><div class="scraped-example-title">examples/serenity_example_port/main.rs (<a href="../src/serenity_example_port/main.rs.html#263">line 263</a>)</div><div class="code-wrapper"><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>233</span>
+<span>234</span>
+<span>235</span>
+<span>236</span>
 <span>237</span>
 <span>238</span>
 <span>239</span>
@@ -198,9 +201,6 @@
 <span>329</span>
 <span>330</span>
 <span>331</span>
-<span>332</span>
-<span>333</span>
-<span>334</span>
 </pre><pre class="rust"><code><span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">options</span> <span class="op">=</span> <span class="ident">poise::FrameworkOptions</span> {
         <span class="ident">listener</span>: <span class="op">|</span><span class="ident">ctx</span>, <span class="ident">event</span>, <span class="ident">framework</span>, <span class="ident">user_data</span><span class="op">|</span> {
@@ -312,7 +312,10 @@ any gateway intents.</p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.options" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/framework/mod.rs.html#139-141" title="goto source code">[src]</a></div><a href="#method.options" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.options" class="fnname">options</a>(&amp;self) -&gt; &amp;<a class="struct" href="struct.FrameworkOptions.html" title="struct poise::FrameworkOptions">FrameworkOptions</a>&lt;U, E&gt;</h4></div></summary><div class="docblock"><p>Return the stored framework options, including commands.</p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.application_id" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/framework/mod.rs.html#144-146" title="goto source code">[src]</a></div><a href="#method.application_id" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.application_id" class="fnname">application_id</a>(&amp;self) -&gt; <a class="struct" href="https://docs.rs/serenity/*/serenity/model/id/struct.ApplicationId.html" title="struct serenity::model::id::ApplicationId">ApplicationId</a></h4></div></summary><div class="docblock"><p>Returns the application ID given to the framework on its creation.</p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.shard_manager" class="method has-srclink"><div class="rightside"><a class="srclink" href="../src/poise/framework/mod.rs.html#149-155" title="goto source code">[src]</a></div><a href="#method.shard_manager" class="anchor"></a><h4 class="code-header">pub fn <a href="#method.shard_manager" class="fnname">shard_manager</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;Mutex&lt;<a class="struct" href="https://docs.rs/serenity/*/serenity/client/bridge/gateway/shard_manager/struct.ShardManager.html" title="struct serenity::client::bridge::gateway::shard_manager::ShardManager">ShardManager</a>&gt;&gt;</h4></div></summary><div class="docblock"><p>Returns the serenity’s client shard manager.</p>
-</div><div class="docblock scraped-example-list"><span></span><h5 id="scraped-examples-1" class="section-header"><a href="#scraped-examples-1">Examples found in repository</a></h5><div class="scraped-example " data-locs="[[[3,3],&quot;../src/serenity_example_port/main.rs.html#487&quot;,&quot;line 487&quot;]]"><div class="scraped-example-title">examples/serenity_example_port/main.rs (<a href="../src/serenity_example_port/main.rs.html#487">line 487</a>)</div><div class="code-wrapper"><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>484</span>
+</div><div class="docblock scraped-example-list"><span></span><h5 id="scraped-examples-1" class="section-header"><a href="#scraped-examples-1">Examples found in repository</a></h5><div class="scraped-example " data-locs="[[[3,3],&quot;../src/serenity_example_port/main.rs.html#484&quot;,&quot;line 484&quot;]]"><div class="scraped-example-title">examples/serenity_example_port/main.rs (<a href="../src/serenity_example_port/main.rs.html#484">line 484</a>)</div><div class="code-wrapper"><span class="expand">&varr;</span><div class="example-wrap"><pre class="line-numbers"><span>481</span>
+<span>482</span>
+<span>483</span>
+<span>484</span>
 <span>485</span>
 <span>486</span>
 <span>487</span>
@@ -329,9 +332,6 @@ any gateway intents.</p>
 <span>498</span>
 <span>499</span>
 <span>500</span>
-<span>501</span>
-<span>502</span>
-<span>503</span>
 </pre><pre class="rust"><code><span class="kw">async</span> <span class="kw">fn</span> <span class="ident">latency</span>(<span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="comment">// The shard manager is an interface for mutating, stopping, restarting, and</span>
     <span class="comment">// retrieving information about shards.</span>
@@ -373,5 +373,5 @@ types are grouped together if they belong to the same command definition.</p>
 <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_subscriber">Read more</a></p>
 </div></details><details class="rustdoc-toggle method-toggle" open><summary><div id="method.with_current_subscriber" class="method trait-impl has-srclink"><div class="rightside"><a class="srclink" href="https://docs.rs/tracing/0.1.29/src/tracing/instrument.rs.html#221" title="goto source code">[src]</a></div><a href="#method.with_current_subscriber" class="anchor"></a><h4 class="code-header">fn <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber" class="fnname">with_current_subscriber</a>(self) -&gt; <a class="struct" href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="struct tracing::instrument::WithDispatch">WithDispatch</a>&lt;Self&gt;</h4></div></summary><div class='docblock'><p>Attaches the current <a href="https://docs.rs/tracing/0.1.29/tracing/dispatcher/index.html#setting-the-default-subscriber">default</a> <a href="https://docs.rs/tracing-core/0.1.21/tracing_core/subscriber/trait.Subscriber.html"><code>Subscriber</code></a> to this type, returning a
 <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/struct.WithDispatch.html" title="WithDispatch"><code>WithDispatch</code></a> wrapper. <a href="https://docs.rs/tracing/0.1.29/tracing/instrument/trait.WithSubscriber.html#method.with_current_subscriber">Read more</a></p>
-</div></details></div></details></div></section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (e2116acae 2021-12-05)" ></div>
+</div></details></div></details></div></section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="poise" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (0fb1c371d 2021-12-06)" ></div>
 </body></html>
